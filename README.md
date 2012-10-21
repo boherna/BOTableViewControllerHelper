@@ -6,7 +6,12 @@ BOTableViewControllerHelper allows you to quickly setup table views without havi
 Requirements
 ============
 
-BOTableViewControllerHelper works on any iOS version, non-ARC projects.
+BOTableViewControllerHelper works on any iOS version, non-ARC projects. It depends on the following Apple frameworks:
+
+Foundation.framework
+UIKit.framework
+CoreGraphics.framework
+QuartzCore.framework
 
 Usage
 =====
