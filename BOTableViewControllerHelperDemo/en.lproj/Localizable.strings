@@ -1,0 +1,18 @@
+/* 
+  Localizable.strings
+  BOTableViewControllerHelperDemo
+
+  Created by Bohdan Hernandez Navia on 21/10/2012.
+  Copyright (c) 2012 Bohdan Hernandez Navia. All rights reserved.
+*/
+
+"captionPlaceholder" = "Your text here";
+"numberOfChars" = "%d / 140";
+"shareOnFacebookRowLabel" = "Facebook";
+"shareOnTwitterRowLabel" = "Twitter";
+"sharingHeaderTitle" = "Sharing";
+"sharingFooterTitle" = "Services available for auto-sharing.";
+"logoutRowLabel" = "Logout";
+"logoutAlertTitle" = "Logout";
+"logoutAlertMessage" = "You have been successfully logged out!";
+"OK" = "OK";

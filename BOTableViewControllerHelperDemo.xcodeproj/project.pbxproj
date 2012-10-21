@@ -1,0 +1,373 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		4749482F163423C000808BAF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4749482E163423C000808BAF /* UIKit.framework */; };
+		47494831163423C000808BAF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47494830163423C000808BAF /* Foundation.framework */; };
+		47494833163423C000808BAF /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47494832163423C000808BAF /* CoreGraphics.framework */; };
+		47494839163423C000808BAF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 47494837163423C000808BAF /* InfoPlist.strings */; };
+		4749483B163423C000808BAF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4749483A163423C000808BAF /* main.m */; };
+		4749483F163423C000808BAF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4749483E163423C000808BAF /* AppDelegate.m */; };
+		47494841163423C000808BAF /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 47494840163423C000808BAF /* Default.png */; };
+		47494843163423C000808BAF /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 47494842163423C000808BAF /* Default@2x.png */; };
+		47494845163423C000808BAF /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 47494844163423C000808BAF /* Default-568h@2x.png */; };
+		474948581634241A00808BAF /* BOTableViewControllerHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 474948571634241A00808BAF /* BOTableViewControllerHelper.m */; };
+		4749485B1634243700808BAF /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4749485A1634243700808BAF /* QuartzCore.framework */; };
+		4749485F1634276A00808BAF /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4749485D1634276A00808BAF /* ViewController.m */; };
+		474948671634311B00808BAF /* facebook-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 474948631634311B00808BAF /* facebook-icon.png */; };
+		474948681634311B00808BAF /* facebook-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 474948641634311B00808BAF /* facebook-icon@2x.png */; };
+		474948691634311B00808BAF /* twitter-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 474948651634311B00808BAF /* twitter-icon.png */; };
+		4749486A1634311B00808BAF /* twitter-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 474948661634311B00808BAF /* twitter-icon@2x.png */; };
+		4749486C1634313B00808BAF /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4749486E1634313B00808BAF /* ViewController.xib */; };
+		474948711634322500808BAF /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 474948731634322500808BAF /* Localizable.strings */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		4749482A163423C000808BAF /* BOTableViewControllerHelperDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BOTableViewControllerHelperDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4749482E163423C000808BAF /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		47494830163423C000808BAF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		47494832163423C000808BAF /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		47494836163423C000808BAF /* BOTableViewControllerHelperDemo-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "BOTableViewControllerHelperDemo-Info.plist"; sourceTree = "<group>"; };
+		47494838163423C000808BAF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		4749483A163423C000808BAF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		4749483C163423C000808BAF /* BOTableViewControllerHelperDemo-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BOTableViewControllerHelperDemo-Prefix.pch"; sourceTree = "<group>"; };
+		4749483D163423C000808BAF /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		4749483E163423C000808BAF /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		47494840163423C000808BAF /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = BOTableViewControllerHelperDemo/Default.png; sourceTree = "<group>"; };
+		47494842163423C000808BAF /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "BOTableViewControllerHelperDemo/Default@2x.png"; sourceTree = "<group>"; };
+		47494844163423C000808BAF /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "BOTableViewControllerHelperDemo/Default-568h@2x.png"; sourceTree = "<group>"; };
+		474948561634241A00808BAF /* BOTableViewControllerHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BOTableViewControllerHelper.h; sourceTree = "<group>"; };
+		474948571634241A00808BAF /* BOTableViewControllerHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BOTableViewControllerHelper.m; sourceTree = "<group>"; };
+		4749485A1634243700808BAF /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		4749485C1634276A00808BAF /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		4749485D1634276A00808BAF /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		474948631634311B00808BAF /* facebook-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "facebook-icon.png"; sourceTree = "<group>"; };
+		474948641634311B00808BAF /* facebook-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "facebook-icon@2x.png"; sourceTree = "<group>"; };
+		474948651634311B00808BAF /* twitter-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "twitter-icon.png"; sourceTree = "<group>"; };
+		474948661634311B00808BAF /* twitter-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "twitter-icon@2x.png"; sourceTree = "<group>"; };
+		4749486D1634313B00808BAF /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController.xib; sourceTree = "<group>"; };
+		474948721634322500808BAF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		47494827163423C000808BAF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4749485B1634243700808BAF /* QuartzCore.framework in Frameworks */,
+				4749482F163423C000808BAF /* UIKit.framework in Frameworks */,
+				47494831163423C000808BAF /* Foundation.framework in Frameworks */,
+				47494833163423C000808BAF /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		4749481F163423C000808BAF = {
+			isa = PBXGroup;
+			children = (
+				474948551634241A00808BAF /* BOTableViewControllerHelper */,
+				47494834163423C000808BAF /* BOTableViewControllerHelperDemo */,
+				4749482D163423C000808BAF /* Frameworks */,
+				4749482B163423C000808BAF /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		4749482B163423C000808BAF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4749482A163423C000808BAF /* BOTableViewControllerHelperDemo.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		4749482D163423C000808BAF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4749485A1634243700808BAF /* QuartzCore.framework */,
+				4749482E163423C000808BAF /* UIKit.framework */,
+				47494830163423C000808BAF /* Foundation.framework */,
+				47494832163423C000808BAF /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		47494834163423C000808BAF /* BOTableViewControllerHelperDemo */ = {
+			isa = PBXGroup;
+			children = (
+				4749483D163423C000808BAF /* AppDelegate.h */,
+				4749483E163423C000808BAF /* AppDelegate.m */,
+				4749485C1634276A00808BAF /* ViewController.h */,
+				4749485D1634276A00808BAF /* ViewController.m */,
+				47494835163423C000808BAF /* Supporting Files */,
+				47494861163427AB00808BAF /* Resources */,
+			);
+			path = BOTableViewControllerHelperDemo;
+			sourceTree = "<group>";
+		};
+		47494835163423C000808BAF /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				47494836163423C000808BAF /* BOTableViewControllerHelperDemo-Info.plist */,
+				47494837163423C000808BAF /* InfoPlist.strings */,
+				4749483A163423C000808BAF /* main.m */,
+				4749483C163423C000808BAF /* BOTableViewControllerHelperDemo-Prefix.pch */,
+				474948731634322500808BAF /* Localizable.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		474948551634241A00808BAF /* BOTableViewControllerHelper */ = {
+			isa = PBXGroup;
+			children = (
+				474948561634241A00808BAF /* BOTableViewControllerHelper.h */,
+				474948571634241A00808BAF /* BOTableViewControllerHelper.m */,
+			);
+			path = BOTableViewControllerHelper;
+			sourceTree = "<group>";
+		};
+		47494861163427AB00808BAF /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				4749486B1634312300808BAF /* XIBs */,
+				474948621634311B00808BAF /* Images */,
+				47494840163423C000808BAF /* Default.png */,
+				47494842163423C000808BAF /* Default@2x.png */,
+				47494844163423C000808BAF /* Default-568h@2x.png */,
+			);
+			name = Resources;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		474948621634311B00808BAF /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				474948631634311B00808BAF /* facebook-icon.png */,
+				474948641634311B00808BAF /* facebook-icon@2x.png */,
+				474948651634311B00808BAF /* twitter-icon.png */,
+				474948661634311B00808BAF /* twitter-icon@2x.png */,
+			);
+			name = Images;
+			path = BOTableViewControllerHelperDemo/Images;
+			sourceTree = "<group>";
+		};
+		4749486B1634312300808BAF /* XIBs */ = {
+			isa = PBXGroup;
+			children = (
+				4749486E1634313B00808BAF /* ViewController.xib */,
+			);
+			name = XIBs;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		47494829163423C000808BAF /* BOTableViewControllerHelperDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4749484E163423C000808BAF /* Build configuration list for PBXNativeTarget "BOTableViewControllerHelperDemo" */;
+			buildPhases = (
+				47494826163423C000808BAF /* Sources */,
+				47494827163423C000808BAF /* Frameworks */,
+				47494828163423C000808BAF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = BOTableViewControllerHelperDemo;
+			productName = BOTableViewControllerHelperDemo;
+			productReference = 4749482A163423C000808BAF /* BOTableViewControllerHelperDemo.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		47494821163423C000808BAF /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0450;
+				ORGANIZATIONNAME = "Bohdan Hernandez Navia";
+			};
+			buildConfigurationList = 47494824163423C000808BAF /* Build configuration list for PBXProject "BOTableViewControllerHelperDemo" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 4749481F163423C000808BAF;
+			productRefGroup = 4749482B163423C000808BAF /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				47494829163423C000808BAF /* BOTableViewControllerHelperDemo */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		47494828163423C000808BAF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				47494839163423C000808BAF /* InfoPlist.strings in Resources */,
+				47494841163423C000808BAF /* Default.png in Resources */,
+				47494843163423C000808BAF /* Default@2x.png in Resources */,
+				47494845163423C000808BAF /* Default-568h@2x.png in Resources */,
+				4749486C1634313B00808BAF /* ViewController.xib in Resources */,
+				474948671634311B00808BAF /* facebook-icon.png in Resources */,
+				474948681634311B00808BAF /* facebook-icon@2x.png in Resources */,
+				474948691634311B00808BAF /* twitter-icon.png in Resources */,
+				4749486A1634311B00808BAF /* twitter-icon@2x.png in Resources */,
+				474948711634322500808BAF /* Localizable.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		47494826163423C000808BAF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4749483B163423C000808BAF /* main.m in Sources */,
+				4749483F163423C000808BAF /* AppDelegate.m in Sources */,
+				474948581634241A00808BAF /* BOTableViewControllerHelper.m in Sources */,
+				4749485F1634276A00808BAF /* ViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		47494837163423C000808BAF /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				47494838163423C000808BAF /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		4749486E1634313B00808BAF /* ViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4749486D1634313B00808BAF /* en */,
+			);
+			name = ViewController.xib;
+			path = BOTableViewControllerHelperDemo;
+			sourceTree = "<group>";
+		};
+		474948731634322500808BAF /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				474948721634322500808BAF /* en */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		4749484C163423C000808BAF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		4749484D163423C000808BAF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		4749484F163423C000808BAF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "BOTableViewControllerHelperDemo/BOTableViewControllerHelperDemo-Prefix.pch";
+				INFOPLIST_FILE = "BOTableViewControllerHelperDemo/BOTableViewControllerHelperDemo-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		47494850163423C000808BAF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "BOTableViewControllerHelperDemo/BOTableViewControllerHelperDemo-Prefix.pch";
+				INFOPLIST_FILE = "BOTableViewControllerHelperDemo/BOTableViewControllerHelperDemo-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		47494824163423C000808BAF /* Build configuration list for PBXProject "BOTableViewControllerHelperDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4749484C163423C000808BAF /* Debug */,
+				4749484D163423C000808BAF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4749484E163423C000808BAF /* Build configuration list for PBXNativeTarget "BOTableViewControllerHelperDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4749484F163423C000808BAF /* Debug */,
+				47494850163423C000808BAF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 47494821163423C000808BAF /* Project object */;
+}

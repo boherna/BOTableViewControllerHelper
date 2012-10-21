@@ -1,7 +1,7 @@
 BOTableViewControllerHelper
 ===========================
 
-BOTableViewControllerHelper allows you to quickly setup table views without having to directly deal with delegates and data sources.
+BOTableViewControllerHelper allows you to quickly setup table views without having to directly deal with delegates and data sources. It is very useful for creating HIG-compliant iOS forms, dialog boxes or showing table-based information.
 
 Requirements
 ============
