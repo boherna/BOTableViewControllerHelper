@@ -25,14 +25,14 @@ The simplest way is to directly add the `BOTableViewControllerHelper.h` and `BOT
 
 1. Download the latest code version from the repository (you can simply use the Download Source button and get the zip or tar archive of the master branch).
 2. Extract the archive.
-3. Open your project in Xcode, than drag and drop `BOTableViewControllerHelper.h` and `BOTableViewControllerHelper.m` to your Classes group (in the Groups & Files view). 
+3. Open your project in Xcode, then drag and drop `BOTableViewControllerHelper.h` and `BOTableViewControllerHelper.m` to your Classes group (in the Groups & Files view). 
 4. Make sure to select Copy items when asked. 
 
 If you have a git tracked project, you can add BOTableViewControllerHelper as a submodule to your project. 
 
 1. Move inside your git tracked project.
 2. Add BOTableViewControllerHelper as a submodule using `git submodule add git://github.com/boherna/BOTableViewControllerHelper.git BOTableViewControllerHelper`.
-3. Open your project in Xcode, than drag and drop `BOTableViewControllerHelper.h` and `BOTableViewControllerHelper.m` to your Classes group (in the Groups & Files view). 
+3. Open your project in Xcode, then drag and drop `BOTableViewControllerHelper.h` and `BOTableViewControllerHelper.m` to your Classes group (in the Groups & Files view). 
 4. Don't select Copy items and select a suitable Reference type (relative to project should work fine most of the time).
 
 License

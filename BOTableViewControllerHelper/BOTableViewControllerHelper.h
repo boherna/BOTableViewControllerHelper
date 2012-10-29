@@ -4,6 +4,25 @@
 //  Created by Bohdan Hernandez Navia on 05/10/10.
 //  Copyright (c) 2010-2012 Bohdan Hernandez Navia. All rights reserved.
 //
+//  Get the latest version of BOTableViewControllerHelper from:
+//
+//  https://github.com/boherna/BOTableViewControllerHelper
+//
+//  Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+//  and associated documentation files (the "Software"), to deal in the Software without restriction,
+//  including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
+//  and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so,
+//  subject to the following conditions:
+//
+//  The above copyright notice and this permission notice shall be included in all copies or substantial
+//  portions of the Software.
+//
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT
+//  LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+//  IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+//  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+//  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//
 
 #import <Foundation/Foundation.h>
 
@@ -27,43 +46,43 @@ enum
 typedef NSUInteger TableViewCellFlags;
 
 // Section keys
-#define kEditingSectionHeaderTitleKey @"EditingSectionHeaderTitle"
-#define kEditingSectionFooterTitleKey @"EditingSectionFooterTitle"
-#define kSectionHeaderTitleKey @"SectionHeaderTitle"
-#define kSectionHeaderHeightKey @"SectionHeaderHeight"
-#define kSectionFooterTitleKey @"SectionFooterTitle"
-#define kSectionFooterHeightKey @"SectionFooterHeight"
-#define kSectionFooterViewKey @"SectionFooterView"
+extern NSString * const kEditingSectionHeaderTitleKey;
+extern NSString * const kEditingSectionFooterTitleKey;
+extern NSString * const kSectionHeaderTitleKey;
+extern NSString * const kSectionHeaderHeightKey;
+extern NSString * const kSectionFooterTitleKey;
+extern NSString * const kSectionFooterHeightKey;
+extern NSString * const kSectionFooterViewKey;
 
 // Row keys
-#define kRowsArrayKey @"RowsArray"
-#define kRowCellStyleKey @"RowCellStyle"
-#define kRowHeightKey @"RowHeight"
-#define kRowFlagsKey @"RowFlags"
-#define kRowImageKey @"RowImage"
-#define kRowBackgroundColorKey @"RowBackgroundColor"
-#define kRowLabelKey @"RowLabel"
-#define kRowLabelFontKey @"RowLabelFont"
-#define kRowLabelTextColorKey @"RowLabelTextColor"
-#define kRowLabelLineBreakModeKey @"RowLabelLineBreakMode"
-#define kRowDetailLabelKey @"RowDetailLabel"
-#define kRowDetailLabelFontKey @"RowDetailLabelFont"
-#define kRowDetailLabelTextColorKey @"RowDetailLabelTextColor"
-#define kRowDetailLabelLineBreakModeKey @"RowDetailLabelLineBreakMode"
-#define kRowRightViewKey @"RowRightView"
-#define kRowRightViewWidthKey @"RowRightViewWidth"
-#define kRowRightViewHeightKey @"RowRightViewHeight"
-#define kRowRightViewIndentationKey @"RowRightViewIndentation"
-#define kRowButtonBackgroundNormalKey @"RowButtonBackgroundNormal"
-#define kRowButtonBackgroundHighlightedKey @"RowButtonBackgroundHighlighted"
-#define kRowViewControllerNibNameKey @"RowViewControllerNibName"
-#define kRowSelectorNameKey @"RowSelectorName"
-#define kRowUserInfoKey @"RowUserInfo"
+extern NSString * const kRowsArrayKey;
+extern NSString * const kRowCellStyleKey;
+extern NSString * const kRowHeightKey;
+extern NSString * const kRowFlagsKey;
+extern NSString * const kRowImageKey;
+extern NSString * const kRowBackgroundColorKey;
+extern NSString * const kRowLabelKey;
+extern NSString * const kRowLabelFontKey;
+extern NSString * const kRowLabelTextColorKey;
+extern NSString * const kRowLabelLineBreakModeKey;
+extern NSString * const kRowDetailLabelKey;
+extern NSString * const kRowDetailLabelFontKey;
+extern NSString * const kRowDetailLabelTextColorKey;
+extern NSString * const kRowDetailLabelLineBreakModeKey;
+extern NSString * const kRowRightViewKey;
+extern NSString * const kRowRightViewWidthKey;
+extern NSString * const kRowRightViewHeightKey;
+extern NSString * const kRowRightViewIndentationKey;
+extern NSString * const kRowButtonBackgroundNormalKey;
+extern NSString * const kRowButtonBackgroundHighlightedKey;
+extern NSString * const kRowViewControllerNibNameKey;
+extern NSString * const kRowSelectorNameKey;
+extern NSString * const kRowUserInfoKey;
 
 // For removing embedded views at cell recycling time
-#define kRowRightViewTag 1
-#define kRowTextLabelTag 2
-#define kRowButtonTag 3
+extern int kRowRightViewTag;
+extern int kRowTextLabelTag;
+extern int kRowButtonTag;
 
 @protocol BOTableViewControllerHelperDelegate;
 
