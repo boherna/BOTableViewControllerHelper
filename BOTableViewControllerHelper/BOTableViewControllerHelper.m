@@ -464,6 +464,13 @@ int kRowButtonTag = 3;
     [rowDictionary release];
 }
 
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if ([_delegate respondsToSelector:@selector(tableView:commitEditingStyle:forRowAtIndexPath:)])
+
+		[_delegate tableView:tableView commitEditingStyle:editingStyle forRowAtIndexPath:indexPath];
+}
+
 #pragma mark - UITableView delegate methods
 
 - (BOOL)tableView:(UITableView *)tableView shouldIndentWhileEditingRowAtIndexPath:(NSIndexPath *)indexPath
@@ -504,7 +511,9 @@ int kRowButtonTag = 3;
 	UIColor * backgroundColor = [[self dictionaryForRowAtIndexPath:indexPath] objectForKey:kRowBackgroundColorKey];
 	if (backgroundColor) cell.backgroundColor = backgroundColor;
 	
-	if ([_delegate respondsToSelector:@selector(tableView:willDisplayCell:forRowAtIndexPath:)]) [_delegate tableView:tableView willDisplayCell:cell forRowAtIndexPath:indexPath];
+	if ([_delegate respondsToSelector:@selector(tableView:willDisplayCell:forRowAtIndexPath:)])
+
+		[_delegate tableView:tableView willDisplayCell:cell forRowAtIndexPath:indexPath];
 }
 
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath

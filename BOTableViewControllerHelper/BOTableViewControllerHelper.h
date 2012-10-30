@@ -104,7 +104,7 @@ extern int kRowButtonTag;
 
 @end
 
-@protocol BOTableViewControllerHelperDelegate <UITableViewDelegate>
+@protocol BOTableViewControllerHelperDelegate <UITableViewDataSource, UITableViewDelegate>
 @optional
 
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section;
