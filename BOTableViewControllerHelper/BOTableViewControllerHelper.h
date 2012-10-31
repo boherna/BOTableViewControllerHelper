@@ -98,9 +98,12 @@ extern int kRowButtonTag;
 - (NSMutableArray *)rowsArrayForSection:(NSInteger)section;
 - (NSMutableDictionary *)dictionaryForSection:(NSInteger)section;
 - (NSMutableDictionary *)dictionaryForRowAtIndexPath:(NSIndexPath *)indexPath;
+- (id)objectForRowAtIndexPath:(NSIndexPath *)indexPath;
 - (BOOL)rowSelectableAtIndexPath:(NSIndexPath *)indexPath;
 - (BOOL)rowEditableAtIndexPath:(NSIndexPath *)indexPath;
 - (BOOL)rowMovableAtIndexPath:(NSIndexPath *)indexPath;
+- (void)deleteRowAtIndexPath:(NSIndexPath *)indexPath;
+- (void)insertRow:(NSMutableDictionary *)row atIndexPath:(NSIndexPath *)indexPath;
 
 @end
 

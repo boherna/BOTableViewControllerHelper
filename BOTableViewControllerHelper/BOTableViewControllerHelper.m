@@ -150,6 +150,11 @@ int kRowButtonTag = 3;
 	return rowsArray ? [rowsArray objectAtIndex:indexPath.row] : [_dataSource objectAtIndex:indexPath.row];
 }
 
+- (id)objectForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	return [[self dictionaryForRowAtIndexPath:indexPath] objectForKey:kRowUserInfoKey];
+}
+
 - (BOOL)rowSelectableAtIndexPath:(NSIndexPath *)indexPath
 {
 	return [[[self dictionaryForRowAtIndexPath:indexPath] valueForKey:kRowFlagsKey] unsignedIntegerValue] & kSelectable ? YES : NO;
@@ -163,6 +168,18 @@ int kRowButtonTag = 3;
 - (BOOL)rowMovableAtIndexPath:(NSIndexPath *)indexPath
 {
 	return [[[self dictionaryForRowAtIndexPath:indexPath] valueForKey:kRowFlagsKey] unsignedIntegerValue] & kMovable ? YES : NO;
+}
+
+- (void)deleteRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	NSMutableArray * rowsArray = [self rowsArrayForSection:indexPath.section];
+	if (rowsArray) [rowsArray removeObjectAtIndex:indexPath.row];
+}
+
+- (void)insertRow:(NSMutableDictionary *)row atIndexPath:(NSIndexPath *)indexPath
+{
+	NSMutableArray * rowsArray = [self rowsArrayForSection:indexPath.section];
+	if (rowsArray) [rowsArray insertObject:row atIndex:indexPath.row];
 }
 
 #pragma mark - UITableView data source
@@ -208,7 +225,15 @@ int kRowButtonTag = 3;
 
 	if (!rowCellStyle) rowCellStyle = UITableViewCellStyleDefault;
 
-    NSString * cellID = [rowDictionary objectForKey:kRowBackgroundColorKey] || [rowDictionary objectForKey:kRowHeightKey] ? nil : [NSString stringWithFormat:@"CellID%u", rowCellStyle];
+    NSString * cellID = [rowDictionary objectForKey:kRowBackgroundColorKey] ||
+						[rowDictionary objectForKey:kRowHeightKey] ||
+						[rowDictionary objectForKey:kRowLabelFontKey] ||
+						[rowDictionary objectForKey:kRowLabelTextColorKey] ||
+						[rowDictionary objectForKey:kRowLabelLineBreakModeKey] ||
+						[rowDictionary objectForKey:kRowDetailLabelFontKey] ||
+						[rowDictionary objectForKey:kRowDetailLabelTextColorKey] ||
+						[rowDictionary objectForKey:kRowDetailLabelLineBreakModeKey] ? nil : [NSString stringWithFormat:@"CellID%u", rowCellStyle];
+	
     UITableViewCell * cell = cellID ? [tableView dequeueReusableCellWithIdentifier:cellID] : nil;
 
 	if (!cell) cell = [[[UITableViewCell alloc] initWithStyle:rowCellStyle reuseIdentifier:cellID] autorelease];
