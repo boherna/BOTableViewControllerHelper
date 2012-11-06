@@ -39,6 +39,7 @@ NSString * const kSectionFooterViewKey = @"SectionFooterView";
 // Row keys
 NSString * const kRowsArrayKey = @"RowsArray";
 NSString * const kRowCellStyleKey = @"RowCellStyle";
+NSString * const kRowCellNibNameKey = @"RowCellNibName";
 NSString * const kRowHeightKey = @"RowHeight";
 NSString * const kRowFlagsKey = @"RowFlags";
 NSString * const kRowImageKey = @"RowImage";
@@ -47,10 +48,12 @@ NSString * const kRowLabelKey = @"RowLabel";
 NSString * const kRowLabelFontKey = @"RowLabelFont";
 NSString * const kRowLabelTextColorKey = @"RowLabelTextColor";
 NSString * const kRowLabelLineBreakModeKey = @"RowLabelLineBreakMode";
+NSString * const kRowLabelTextAlignmentKey = @"RowLabelTextAlignment";
 NSString * const kRowDetailLabelKey = @"RowDetailLabel";
 NSString * const kRowDetailLabelFontKey = @"RowDetailLabelFont";
 NSString * const kRowDetailLabelTextColorKey = @"RowDetailLabelTextColor";
 NSString * const kRowDetailLabelLineBreakModeKey = @"RowDetailLabelLineBreakMode";
+NSString * const kRowDetailLabelTextAlignmentKey = @"RowDetailLabelTextAlignment";
 NSString * const kRowRightViewKey = @"RowRightView";
 NSString * const kRowRightViewWidthKey = @"RowRightViewWidth";
 NSString * const kRowRightViewHeightKey = @"RowRightViewHeight";
@@ -221,20 +224,54 @@ int kRowButtonTag = 3;
 {
 	NSDictionary * rowDictionary = [self dictionaryForRowAtIndexPath:indexPath];
 	TableViewCellFlags rowFlags = [[rowDictionary valueForKey:kRowFlagsKey] unsignedIntegerValue];
-	UITableViewCellStyle rowCellStyle = [[rowDictionary valueForKey:kRowCellStyleKey] integerValue];
+	NSString * cellID = nil;
+	UITableViewCell * cell = nil;
 
+	if ([rowDictionary objectForKey:kRowCellNibNameKey])
+	{
+		cellID = [rowDictionary objectForKey:kRowCellNibNameKey];
+		cell = [tableView dequeueReusableCellWithIdentifier:cellID];
+
+		if (!cell)
+		{
+			for (id nibObject in [[NSBundle mainBundle] loadNibNamed:cellID owner:nil options:nil])
+
+				if ([nibObject isKindOfClass:[UITableViewCell class]])
+				{
+					cell = nibObject;
+					break;
+				}
+
+			if (!cell) cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"DefaultCell"] autorelease];
+		}		
+		
+		cell.selectionStyle = UITableViewCellSelectionStyleNone;
+		cell.accessoryType = UITableViewCellAccessoryNone;
+		cell.showsReorderControl = rowFlags & kMovable ? YES : NO;
+
+		if (rowFlags & kAccessoryDisclosureIndicator) cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+		if (rowFlags & kAccessoryDetailDisclosureButton) cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+		if (rowFlags & kAccessoryCheckmark) cell.accessoryType = UITableViewCellAccessoryCheckmark;
+
+		cell.editingAccessoryType = cell.accessoryType;
+		cell.shouldIndentWhileEditing = rowFlags & kEditable ? YES : NO;
+
+		if ([_delegate respondsToSelector:@selector(tableView:initCell:forRowAtIndexPath:)]) [_delegate tableView:tableView initCell:cell forRowAtIndexPath:indexPath];
+		return cell;
+	}
+
+	UITableViewCellStyle rowCellStyle = [[rowDictionary valueForKey:kRowCellStyleKey] integerValue];
 	if (!rowCellStyle) rowCellStyle = UITableViewCellStyleDefault;
 
-    NSString * cellID = [rowDictionary objectForKey:kRowBackgroundColorKey] ||
-						[rowDictionary objectForKey:kRowHeightKey] ||
-						[rowDictionary objectForKey:kRowLabelFontKey] ||
-						[rowDictionary objectForKey:kRowLabelTextColorKey] ||
-						[rowDictionary objectForKey:kRowLabelLineBreakModeKey] ||
-						[rowDictionary objectForKey:kRowDetailLabelFontKey] ||
-						[rowDictionary objectForKey:kRowDetailLabelTextColorKey] ||
-						[rowDictionary objectForKey:kRowDetailLabelLineBreakModeKey] ? nil : [NSString stringWithFormat:@"CellID%u", rowCellStyle];
+    if (![rowDictionary objectForKey:kRowBackgroundColorKey] &&	![rowDictionary objectForKey:kRowHeightKey] &&
+		![rowDictionary objectForKey:kRowLabelFontKey] && ![rowDictionary objectForKey:kRowLabelTextColorKey] &&
+		![rowDictionary objectForKey:kRowLabelLineBreakModeKey] && ![rowDictionary objectForKey:kRowLabelTextAlignmentKey] &&
+		![rowDictionary objectForKey:kRowDetailLabelFontKey] && ![rowDictionary objectForKey:kRowDetailLabelTextColorKey] &&
+		![rowDictionary objectForKey:kRowDetailLabelLineBreakModeKey] && ![rowDictionary objectForKey:kRowDetailLabelTextAlignmentKey])
+
+		cellID = [NSString stringWithFormat:@"CellID%u", rowCellStyle];
 	
-    UITableViewCell * cell = cellID ? [tableView dequeueReusableCellWithIdentifier:cellID] : nil;
+    if (cellID) [tableView dequeueReusableCellWithIdentifier:cellID];
 
 	if (!cell) cell = [[[UITableViewCell alloc] initWithStyle:rowCellStyle reuseIdentifier:cellID] autorelease];
 	else
@@ -402,8 +439,8 @@ int kRowButtonTag = 3;
 		if (labelTextColor) cell.textLabel.textColor = labelTextColor;
 
 		if ([rowDictionary objectForKey:kRowLabelLineBreakModeKey])	cell.textLabel.lineBreakMode = [[rowDictionary valueForKey:kRowLabelLineBreakModeKey] integerValue];
+		if ([rowDictionary objectForKey:kRowLabelTextAlignmentKey])	cell.textLabel.textAlignment = [[rowDictionary valueForKey:kRowLabelTextAlignmentKey] integerValue];
 
-		if (rowFlags & kTextAlignmentCenter) cell.textLabel.textAlignment = TEXTALIGNMENTCENTER;
 		if (rowFlags & kMultiLineLabel)
 		{
 			CGFloat textLabelWidth = rowCellStyle == UITableViewCellStyleValue2 ? DETAILTEXTLABEL_POSX : cell.contentView.frame.size.width - cell.indentationWidth * 2;
@@ -445,6 +482,7 @@ int kRowButtonTag = 3;
 			if (detailLabelTextColor) cell.detailTextLabel.textColor = detailLabelTextColor;
 
 			if ([rowDictionary objectForKey:kRowDetailLabelLineBreakModeKey]) cell.detailTextLabel.lineBreakMode = [[rowDictionary valueForKey:kRowDetailLabelLineBreakModeKey] integerValue];
+			if ([rowDictionary objectForKey:kRowDetailLabelTextAlignmentKey]) cell.detailTextLabel.textAlignment = [[rowDictionary valueForKey:kRowDetailLabelTextAlignmentKey] integerValue];
 
 			if (rowFlags & kMultiLineDetailLabel && rowCellStyle == UITableViewCellStyleValue2)
 			{
@@ -527,8 +565,12 @@ int kRowButtonTag = 3;
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	CGFloat rowHeight = [[[self dictionaryForRowAtIndexPath:indexPath] valueForKey:kRowHeightKey] floatValue];
-	return _variableRowHeight ? [self tableView:tableView cellForRowAtIndexPath:indexPath].frame.size.height : (rowHeight ? rowHeight : tableView.rowHeight);
+	NSDictionary * rowDictionary = [self dictionaryForRowAtIndexPath:indexPath];
+	CGFloat rowHeight = [[rowDictionary valueForKey:kRowHeightKey] floatValue];
+
+	if (!rowHeight && (_variableRowHeight || [rowDictionary objectForKey:kRowCellNibNameKey])) rowHeight = [self tableView:tableView cellForRowAtIndexPath:indexPath].frame.size.height;
+
+	return rowHeight ? rowHeight : tableView.rowHeight;
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath

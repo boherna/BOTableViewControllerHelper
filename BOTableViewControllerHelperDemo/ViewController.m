@@ -37,18 +37,19 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
 
-	NSDictionary * captionSection = [NSDictionary dictionaryWithObjectsAndKeys:
-									 [NSArray arrayWithObjects:
-									  [NSMutableDictionary dictionaryWithObjectsAndKeys:
-									   [NSNumber numberWithFloat:115.0], kRowHeightKey,
-									   [NSNumber numberWithUnsignedInteger:(kRightView)], kRowFlagsKey,
-									   [NSNumber numberWithFloat:0.0], kRowRightViewWidthKey,
-									   [NSNumber numberWithFloat:0.0], kRowRightViewHeightKey,
-									   [NSNumber numberWithFloat:5.0], kRowRightViewIndentationKey,
-									   self.captionView, kRowRightViewKey,
-									   nil],
-									  nil], kRowsArrayKey,
-									 nil];
+	NSDictionary * embeddedViewSection = [NSDictionary dictionaryWithObjectsAndKeys:
+										  NSLocalizedString(@"embeddedViewHeaderTitle", @""), kSectionHeaderTitleKey,
+										  [NSArray arrayWithObjects:
+										   [NSMutableDictionary dictionaryWithObjectsAndKeys:
+											[NSNumber numberWithFloat:115.0], kRowHeightKey,
+											[NSNumber numberWithUnsignedInteger:(kRightView)], kRowFlagsKey,
+											[NSNumber numberWithFloat:0.0], kRowRightViewWidthKey,
+											[NSNumber numberWithFloat:0.0], kRowRightViewHeightKey,
+											[NSNumber numberWithFloat:5.0], kRowRightViewIndentationKey,
+											self.captionView, kRowRightViewKey,
+											nil],
+										   nil], kRowsArrayKey,
+										  nil];
 
 	NSDictionary * sharingSection = [NSDictionary dictionaryWithObjectsAndKeys:
 									 NSLocalizedString(@"sharingHeaderTitle", @""), kSectionHeaderTitleKey,
@@ -69,17 +70,28 @@
 									  nil], kRowsArrayKey,
 									 nil];
 
-	NSDictionary * logoutSection = [NSDictionary dictionaryWithObjectsAndKeys:									
+	NSDictionary * buttonSection = [NSDictionary dictionaryWithObjectsAndKeys:
+									NSLocalizedString(@"buttonHeaderTitle", @""), kSectionHeaderTitleKey,
 									[NSArray arrayWithObjects:
 									 [NSMutableDictionary dictionaryWithObjectsAndKeys:
-									  [NSNumber numberWithUnsignedInteger:(kSelectable | kTextAlignmentCenter)], kRowFlagsKey,
+									  [NSNumber numberWithUnsignedInteger:(kSelectable)], kRowFlagsKey,
+									  [NSNumber numberWithUnsignedInteger:UITextAlignmentCenter], kRowLabelTextAlignmentKey,
 									  NSLocalizedString(@"logoutRowLabel", @""), kRowLabelKey,
 									  @"logoutAction", kRowSelectorNameKey,
 									  nil],
 									 nil], kRowsArrayKey,
 									nil];
 
-	self.tableViewControllerHelper = [BOTableViewControllerHelper dataSourceWithArray:[NSMutableArray arrayWithObjects:captionSection, sharingSection, logoutSection, nil]];
+	NSDictionary * customCellSection = [NSDictionary dictionaryWithObjectsAndKeys:
+										NSLocalizedString(@"customCellHeaderTitle", @""), kSectionHeaderTitleKey,
+										[NSArray arrayWithObjects:
+										 [NSMutableDictionary dictionaryWithObjectsAndKeys:
+										  @"CustomCell", kRowCellNibNameKey,
+										  nil],
+										 nil], kRowsArrayKey,
+										nil];
+
+	self.tableViewControllerHelper = [BOTableViewControllerHelper dataSourceWithArray:[NSMutableArray arrayWithObjects:embeddedViewSection, sharingSection, buttonSection, customCellSection, nil]];
 	_tableViewControllerHelper.delegate = self;
 
 	_captionTextView.autocapitalizationType = UITextAutocapitalizationTypeSentences;
@@ -235,4 +247,12 @@
 	[self performSelector:@selector(updateNumberOfChars) withObject:nil afterDelay:0.1];
     return TRUE;
 }
+
+#pragma mark - BOTableViewControllerHelper delegate methods
+
+- (void)tableView:(UITableView *)tableView initCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	
+}
+
 @end

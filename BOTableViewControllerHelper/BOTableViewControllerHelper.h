@@ -33,15 +33,13 @@ enum
 	kAccessoryDisclosureIndicator = (1 << 3),
 	kAccessoryDetailDisclosureButton = (1 << 4),
 	kAccessoryCheckmark = (1 << 5),
-	kTextAlignmentCenter = (1 << 6),
-	kTextAlignmentRight = (1 << 7),
-	kButton = (1 << 8),
-	kMultiLineLabel = (1 << 9),
-	kMultiLineDetailLabel = (1 << 10),
-	kDisabled = (1 << 11),
-	kImageWithShadow = (1 << 12),
-	kEditable = (1 << 13),
-	kMovable = (1 << 14)
+	kButton = (1 << 6),
+	kMultiLineLabel = (1 << 7),
+	kMultiLineDetailLabel = (1 << 8),
+	kDisabled = (1 << 9),
+	kImageWithShadow = (1 << 10),
+	kEditable = (1 << 11),
+	kMovable = (1 << 12)
 };
 typedef NSUInteger TableViewCellFlags;
 
@@ -57,6 +55,7 @@ extern NSString * const kSectionFooterViewKey;
 // Row keys
 extern NSString * const kRowsArrayKey;
 extern NSString * const kRowCellStyleKey;
+extern NSString * const kRowCellNibNameKey;
 extern NSString * const kRowHeightKey;
 extern NSString * const kRowFlagsKey;
 extern NSString * const kRowImageKey;
@@ -65,10 +64,12 @@ extern NSString * const kRowLabelKey;
 extern NSString * const kRowLabelFontKey;
 extern NSString * const kRowLabelTextColorKey;
 extern NSString * const kRowLabelLineBreakModeKey;
+extern NSString * const kRowLabelTextAlignmentKey;
 extern NSString * const kRowDetailLabelKey;
 extern NSString * const kRowDetailLabelFontKey;
 extern NSString * const kRowDetailLabelTextColorKey;
 extern NSString * const kRowDetailLabelLineBreakModeKey;
+extern NSString * const kRowDetailLabelTextAlignmentKey;
 extern NSString * const kRowRightViewKey;
 extern NSString * const kRowRightViewWidthKey;
 extern NSString * const kRowRightViewHeightKey;
@@ -114,5 +115,6 @@ extern int kRowButtonTag;
 - (UIImage *)tableView:(UITableView *)tableView imageForRowAtIndexPath:(NSIndexPath *)indexPath;
 - (NSString *)tableView:(UITableView *)tableView textForRowAtIndexPath:(NSIndexPath *)indexPath;
 - (NSString *)tableView:(UITableView *)tableView detailTextForRowAtIndexPath:(NSIndexPath *)indexPath;
+- (void)tableView:(UITableView *)tableView initCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath;
 
 @end

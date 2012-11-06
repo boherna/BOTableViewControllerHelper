@@ -6,6 +6,9 @@
   Copyright (c) 2012 Bohdan Hernandez Navia. All rights reserved.
 */
 
+"embeddedViewHeaderTitle" = "Embedded TextView";
+"buttonHeaderTitle" = "Button";
+"customCellHeaderTitle" = "Custom Cell";
 "captionPlaceholder" = "Your text here";
 "numberOfChars" = "%d / 140";
 "shareOnFacebookRowLabel" = "Facebook";

@@ -25,6 +25,8 @@
 		4749486A1634311B00808BAF /* twitter-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 474948661634311B00808BAF /* twitter-icon@2x.png */; };
 		4749486C1634313B00808BAF /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4749486E1634313B00808BAF /* ViewController.xib */; };
 		474948711634322500808BAF /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 474948731634322500808BAF /* Localizable.strings */; };
+		479D91991644053700F9340F /* CustomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 479D91981644053700F9340F /* CustomCell.m */; };
+		479D919C164405AF00F9340F /* CustomCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 479D919B164405AF00F9340F /* CustomCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,6 +54,9 @@
 		474948661634311B00808BAF /* twitter-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "twitter-icon@2x.png"; sourceTree = "<group>"; };
 		4749486D1634313B00808BAF /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController.xib; sourceTree = "<group>"; };
 		474948721634322500808BAF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		479D91971644053700F9340F /* CustomCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomCell.h; sourceTree = "<group>"; };
+		479D91981644053700F9340F /* CustomCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomCell.m; sourceTree = "<group>"; };
+		479D919B164405AF00F9340F /* CustomCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +106,8 @@
 		47494834163423C000808BAF /* BOTableViewControllerHelperDemo */ = {
 			isa = PBXGroup;
 			children = (
+				479D91971644053700F9340F /* CustomCell.h */,
+				479D91981644053700F9340F /* CustomCell.m */,
 				4749483D163423C000808BAF /* AppDelegate.h */,
 				4749483E163423C000808BAF /* AppDelegate.m */,
 				4749485C1634276A00808BAF /* ViewController.h */,
@@ -160,6 +167,7 @@
 		4749486B1634312300808BAF /* XIBs */ = {
 			isa = PBXGroup;
 			children = (
+				479D919B164405AF00F9340F /* CustomCell.xib */,
 				4749486E1634313B00808BAF /* ViewController.xib */,
 			);
 			name = XIBs;
@@ -226,6 +234,7 @@
 				474948691634311B00808BAF /* twitter-icon.png in Resources */,
 				4749486A1634311B00808BAF /* twitter-icon@2x.png in Resources */,
 				474948711634322500808BAF /* Localizable.strings in Resources */,
+				479D919C164405AF00F9340F /* CustomCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -240,6 +249,7 @@
 				4749483F163423C000808BAF /* AppDelegate.m in Sources */,
 				474948581634241A00808BAF /* BOTableViewControllerHelper.m in Sources */,
 				4749485F1634276A00808BAF /* ViewController.m in Sources */,
+				479D91991644053700F9340F /* CustomCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
