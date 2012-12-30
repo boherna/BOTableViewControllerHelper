@@ -87,6 +87,7 @@
 										[NSArray arrayWithObjects:
 										 [NSMutableDictionary dictionaryWithObjectsAndKeys:
 										  @"CustomCell", kRowCellNibNameKey,
+										  [NSNumber numberWithFloat:111.0], kRowHeightKey,
 										  nil],
 										 nil], kRowsArrayKey,
 										nil];
