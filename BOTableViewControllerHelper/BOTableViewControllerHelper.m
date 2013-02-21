@@ -80,12 +80,14 @@ int kRowButtonTag = 3;
 #define TEXTALIGNMENTRIGHT UITextAlignmentRight
 #define LINEBREAKMODETAILTRUNCATION UILineBreakModeTailTruncation
 #define LINEBREAKMODECHARACTERWRAP UILineBreakModeCharacterWrap
+#define LINEBREAKBYWORDWRAPPING UILineBreakModeWordWrap
 #else
 #define TEXTALIGNMENTLEFT NSTextAlignmentLeft
 #define TEXTALIGNMENTCENTER NSTextAlignmentCenter
 #define TEXTALIGNMENTRIGHT NSTextAlignmentRight
 #define LINEBREAKMODETAILTRUNCATION NSLineBreakByTruncatingTail
 #define LINEBREAKMODECHARACTERWRAP NSLineBreakByCharWrapping
+#define LINEBREAKBYWORDWRAPPING NSLineBreakByWordWrapping
 #endif
 
 @interface NSString (BOTableViewControllerHelper)
@@ -459,22 +461,13 @@ int kRowButtonTag = 3;
 
 		if (rowFlags & kMultiLineLabel)
 		{
-			CGFloat textLabelWidth = rowCellStyle == UITableViewCellStyleValue2 ? DETAILTEXTLABEL_POSX : cell.contentView.frame.size.width - cell.indentationWidth * 2;
-			CGFloat singleLineHeight = [@"X" sizeWithFont:[UIFont boldSystemFontOfSize:[UIFont labelFontSize]]
-										constrainedToSize:CGSizeMake(textLabelWidth, tableView.frame.size.height)
-											lineBreakMode:LINEBREAKMODETAILTRUNCATION].height;
+			CGFloat textLabelWidth = rowCellStyle == UITableViewCellStyleValue2 ? DETAILTEXTLABEL_POSX : cell.contentView.frame.size.width - cell.indentationWidth * 4;
+			CGFloat textHeight = [cell.textLabel.text sizeWithFont:cell.textLabel.font
+												 constrainedToSize:CGSizeMake(textLabelWidth, 1024)
+													 lineBreakMode:LINEBREAKBYWORDWRAPPING].height;
 
-			CGFloat textHeight = [cell.textLabel.text sizeWithFont:(labelFont ? labelFont : [UIFont boldSystemFontOfSize:[UIFont labelFontSize]])
-												 constrainedToSize:CGSizeMake(textLabelWidth, tableView.frame.size.height)
-													 lineBreakMode:LINEBREAKMODECHARACTERWRAP].height;
-
-			cell.frame = CGRectMake(cell.frame.origin.x, cell.frame.origin.y, cell.frame.size.width, tableView.rowHeight - singleLineHeight + textHeight);
-
-			if (labelFont) singleLineHeight = [@"X" sizeWithFont:labelFont
-											   constrainedToSize:CGSizeMake(textLabelWidth, tableView.frame.size.height)
-												   lineBreakMode:LINEBREAKMODETAILTRUNCATION].height;
-
-			cell.textLabel.numberOfLines = singleLineHeight && textHeight > singleLineHeight ? (textHeight / singleLineHeight) : 1;
+			cell.frame = CGRectMake(cell.frame.origin.x, cell.frame.origin.y, cell.frame.size.width, textHeight + cell.indentationWidth * 2);
+			cell.textLabel.numberOfLines = 0;
 		}
 
 		if (cell.detailTextLabel)
@@ -503,21 +496,12 @@ int kRowButtonTag = 3;
 			if (rowFlags & kMultiLineDetailLabel && rowCellStyle == UITableViewCellStyleValue2)
 			{
 				CGFloat detailTextLabelWidth = cell.contentView.frame.size.width - cell.indentationWidth - ([[UIDevice currentDevice].systemVersion floatValue] >= 5 ? cell.indentationWidth * 2 : 0) - DETAILTEXTLABEL_POSX;
-				CGFloat singleLineHeight = [@"X" sizeWithFont:[UIFont boldSystemFontOfSize:DETAILTEXTLABEL_FONTSIZE]
-											constrainedToSize:CGSizeMake(detailTextLabelWidth, tableView.frame.size.height)
-												lineBreakMode:LINEBREAKMODETAILTRUNCATION].height;
+				CGFloat textHeight = [cell.detailTextLabel.text sizeWithFont:cell.detailTextLabel.font
+														   constrainedToSize:CGSizeMake(detailTextLabelWidth, 1024)
+															   lineBreakMode:LINEBREAKBYWORDWRAPPING].height;				
 
-				CGFloat textHeight = [cell.detailTextLabel.text sizeWithFont:(detailLabelFont ? detailLabelFont : [UIFont boldSystemFontOfSize:DETAILTEXTLABEL_FONTSIZE])
-														   constrainedToSize:CGSizeMake(detailTextLabelWidth, tableView.frame.size.height)
-															   lineBreakMode:LINEBREAKMODECHARACTERWRAP].height;				
-
-				cell.frame = CGRectMake(cell.frame.origin.x, cell.frame.origin.y, cell.frame.size.width, tableView.rowHeight - singleLineHeight + textHeight);
-
-				if (detailLabelFont) singleLineHeight = [@"X" sizeWithFont:detailLabelFont
-														 constrainedToSize:CGSizeMake(detailTextLabelWidth, tableView.frame.size.height)
-															 lineBreakMode:LINEBREAKMODETAILTRUNCATION].height;
-
-				cell.detailTextLabel.numberOfLines = singleLineHeight && textHeight > singleLineHeight ? (textHeight / singleLineHeight) : 1;
+				cell.frame = CGRectMake(cell.frame.origin.x, cell.frame.origin.y, cell.frame.size.width, textHeight + cell.indentationWidth * 2);
+				cell.detailTextLabel.numberOfLines = 0;
 			}
 		}
 	}
