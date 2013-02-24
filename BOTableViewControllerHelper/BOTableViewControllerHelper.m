@@ -154,7 +154,8 @@ int kRowButtonTag = 3;
 - (NSMutableDictionary *)dictionaryForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	NSArray	* rowsArray = [[self dictionaryForSection:indexPath.section] valueForKey:kRowsArrayKey];
-	return rowsArray ? [rowsArray objectAtIndex:indexPath.row] : [_dataSource objectAtIndex:indexPath.row];
+	return rowsArray ? (indexPath.row < rowsArray.count ? [rowsArray objectAtIndex:indexPath.row] : nil) :
+					   (indexPath.row < _dataSource.count ? [_dataSource objectAtIndex:indexPath.row] : nil);
 }
 
 - (id)objectForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -256,6 +257,10 @@ int kRowButtonTag = 3;
 
 			if (!cell) cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"DefaultCell"] autorelease];
 		}
+		else
+		{
+			if ([_delegate respondsToSelector:@selector(tableView:initCell:forRowAtIndexPath:)]) [_delegate tableView:tableView initCell:cell forRowAtIndexPath:indexPath];
+		}
 		return cell;
 	}
 
@@ -272,6 +277,10 @@ int kRowButtonTag = 3;
 			if (cell && [_delegate respondsToSelector:@selector(tableView:initCell:forRowAtIndexPath:)]) [_delegate tableView:tableView initCell:cell forRowAtIndexPath:indexPath];
 
 			if (!cell) cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"DefaultCell"] autorelease];			
+		}
+		else
+		{
+			if ([_delegate respondsToSelector:@selector(tableView:initCell:forRowAtIndexPath:)]) [_delegate tableView:tableView initCell:cell forRowAtIndexPath:indexPath];
 		}
 		return cell;
 	}
