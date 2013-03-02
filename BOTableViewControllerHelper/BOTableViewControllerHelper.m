@@ -229,6 +229,23 @@ int kRowButtonTag = 3;
 	return title;
 }
 
+- (void)initCell:(UITableViewCell *)cell withRowFlags:(TableViewCellFlags)rowFlags
+{
+	if (cell)
+	{
+		cell.selectionStyle = rowFlags & kSelectable ? UITableViewCellSelectionStyleBlue : UITableViewCellSelectionStyleNone;
+		cell.accessoryType = UITableViewCellAccessoryNone;
+		cell.showsReorderControl = rowFlags & kMovable ? YES : NO;
+
+		if (rowFlags & kAccessoryDisclosureIndicator) cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+		if (rowFlags & kAccessoryDetailDisclosureButton) cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+		if (rowFlags & kAccessoryCheckmark) cell.accessoryType = UITableViewCellAccessoryCheckmark;
+
+		cell.editingAccessoryType = UITableViewCellAccessoryNone;//cell.accessoryType;
+		cell.shouldIndentWhileEditing = rowFlags & kEditable ? YES : NO;
+	}
+}
+
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -253,6 +270,8 @@ int kRowButtonTag = 3;
 					break;
 				}
 
+			[self initCell:cell withRowFlags:rowFlags];
+
 			if (cell && [_delegate respondsToSelector:@selector(tableView:initCell:forRowAtIndexPath:)]) [_delegate tableView:tableView initCell:cell forRowAtIndexPath:indexPath];
 
 			if (!cell) cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"DefaultCell"] autorelease];
@@ -273,6 +292,8 @@ int kRowButtonTag = 3;
 		if (!cell)
 		{
 			cell = [[[NSClassFromString([rowDictionary objectForKey:kRowCellClassNameKey]) alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID] autorelease];
+
+			[self initCell:cell withRowFlags:rowFlags];
 
 			if (cell && [_delegate respondsToSelector:@selector(tableView:initCell:forRowAtIndexPath:)]) [_delegate tableView:tableView initCell:cell forRowAtIndexPath:indexPath];
 
@@ -326,16 +347,7 @@ int kRowButtonTag = 3;
 		}
 	}
 
-	cell.selectionStyle = rowFlags & kSelectable ? UITableViewCellSelectionStyleBlue : UITableViewCellSelectionStyleNone;
-	cell.accessoryType = UITableViewCellAccessoryNone;
-	cell.showsReorderControl = rowFlags & kMovable ? YES : NO;
-
-	if (rowFlags & kAccessoryDisclosureIndicator) cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-	if (rowFlags & kAccessoryDetailDisclosureButton) cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
-	if (rowFlags & kAccessoryCheckmark) cell.accessoryType = UITableViewCellAccessoryCheckmark;
-	
-	cell.editingAccessoryType = cell.accessoryType;
-	cell.shouldIndentWhileEditing = rowFlags & kEditable ? YES : NO;
+	[self initCell:cell withRowFlags:rowFlags];
 
 	UIImage * image = [rowDictionary valueForKey:kRowImageKey];
 
@@ -530,6 +542,10 @@ int kRowButtonTag = 3;
 
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
 {
+	if ([_delegate respondsToSelector:@selector(tableView:moveRowAtIndexPath:toIndexPath:)])
+
+		[_delegate tableView:tableView moveRowAtIndexPath:fromIndexPath toIndexPath:toIndexPath];
+	
 	NSMutableDictionary * rowDictionary = [[self dictionaryForRowAtIndexPath:fromIndexPath] retain];
     [[self rowsArrayForSection:fromIndexPath.section] removeObjectAtIndex:fromIndexPath.row];
     [[self rowsArrayForSection:toIndexPath.section] insertObject:rowDictionary atIndex:toIndexPath.row];
@@ -538,9 +554,19 @@ int kRowButtonTag = 3;
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ([_delegate respondsToSelector:@selector(tableView:commitEditingStyle:forRowAtIndexPath:)])
+	if (editingStyle == UITableViewCellEditingStyleDelete)
+	{
+		if ([_delegate respondsToSelector:@selector(tableView:deleteRowAtIndexPath:)]) [_delegate tableView:tableView deleteRowAtIndexPath:indexPath];
+		
+		[[self rowsArrayForSection:indexPath.section] removeObjectAtIndex:indexPath.row];
+		[tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+	}
+	else
+	{
+		if ([_delegate respondsToSelector:@selector(tableView:commitEditingStyle:forRowAtIndexPath:)])
 
-		[_delegate tableView:tableView commitEditingStyle:editingStyle forRowAtIndexPath:indexPath];
+			[_delegate tableView:tableView commitEditingStyle:editingStyle forRowAtIndexPath:indexPath];
+	}
 }
 
 #pragma mark - UITableView delegate methods
