@@ -569,11 +569,11 @@ int kRowButtonTag = 3;
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	if (editingStyle == UITableViewCellEditingStyleDelete)
-	{
-		if ([_delegate respondsToSelector:@selector(tableView:deleteRowAtIndexPath:)]) [_delegate tableView:tableView deleteRowAtIndexPath:indexPath];
-		
+	{		
 		[[self rowsArrayForSection:indexPath.section] removeObjectAtIndex:indexPath.row];
 		[tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+
+		if ([_delegate respondsToSelector:@selector(tableView:deleteRowAtIndexPath:)]) [_delegate tableView:tableView deleteRowAtIndexPath:indexPath];
 	}
 	else
 	{
