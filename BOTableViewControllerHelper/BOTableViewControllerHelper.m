@@ -482,7 +482,14 @@ int kRowButtonTag = 3;
 
 		if (rowFlags & kMultiLineLabel)
 		{
-			CGFloat textLabelWidth = rowCellStyle == UITableViewCellStyleValue2 ? DETAILTEXTLABEL_POSX : cell.contentView.frame.size.width - cell.indentationWidth * 4;
+			CGFloat cellWidth = MIN([UIScreen mainScreen].applicationFrame.size.width, [UIScreen mainScreen].applicationFrame.size.height);
+
+			if (UIDeviceOrientationIsLandscape([UIDevice currentDevice].orientation))
+			{
+				cellWidth = MAX([UIScreen mainScreen].applicationFrame.size.width, [UIScreen mainScreen].applicationFrame.size.height);
+			}
+			
+			CGFloat textLabelWidth = rowCellStyle == UITableViewCellStyleValue2 ? DETAILTEXTLABEL_POSX : cellWidth - cell.indentationWidth * 4;
 			CGFloat textHeight = [cell.textLabel.text sizeWithFont:cell.textLabel.font
 												 constrainedToSize:CGSizeMake(textLabelWidth, 1024)
 													 lineBreakMode:LINEBREAKBYWORDWRAPPING].height;
@@ -516,7 +523,14 @@ int kRowButtonTag = 3;
 
 			if (rowFlags & kMultiLineDetailLabel && rowCellStyle == UITableViewCellStyleValue2)
 			{
-				CGFloat detailTextLabelWidth = cell.contentView.frame.size.width - cell.indentationWidth - ([[UIDevice currentDevice].systemVersion floatValue] >= 5 ? cell.indentationWidth * 2 : 0) - DETAILTEXTLABEL_POSX;
+				CGFloat cellWidth = MIN([UIScreen mainScreen].applicationFrame.size.width, [UIScreen mainScreen].applicationFrame.size.height);
+
+				if (UIDeviceOrientationIsLandscape([UIDevice currentDevice].orientation))
+				{
+					cellWidth = MAX([UIScreen mainScreen].applicationFrame.size.width, [UIScreen mainScreen].applicationFrame.size.height);
+				}
+				
+				CGFloat detailTextLabelWidth = cellWidth - cell.indentationWidth - ([[UIDevice currentDevice].systemVersion floatValue] >= 5 ? cell.indentationWidth * 2 : 0) - DETAILTEXTLABEL_POSX;
 				CGFloat textHeight = [cell.detailTextLabel.text sizeWithFont:cell.detailTextLabel.font
 														   constrainedToSize:CGSizeMake(detailTextLabelWidth, 1024)
 															   lineBreakMode:LINEBREAKBYWORDWRAPPING].height;				
