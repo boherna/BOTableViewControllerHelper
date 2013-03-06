@@ -319,7 +319,7 @@ int kRowButtonTag = 3;
 
 			cellID = [NSString stringWithFormat:@"CellID%u", rowCellStyle];
 	
-    if (cellID) [tableView dequeueReusableCellWithIdentifier:cellID];
+    if (cellID) cell = [tableView dequeueReusableCellWithIdentifier:cellID];
 
 	if (!cell) cell = [[[UITableViewCell alloc] initWithStyle:rowCellStyle reuseIdentifier:cellID] autorelease];
 	else
