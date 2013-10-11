@@ -90,6 +90,12 @@ int kRowButtonTag = 3;
 #define LINEBREAKBYWORDWRAPPING NSLineBreakByWordWrapping
 #endif
 
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_7_0
+#define SYSTEMFONTOFSIZE systemFontOfSize
+#else
+#define SYSTEMFONTOFSIZE boldSystemFontOfSize
+#endif
+
 @interface NSString (BOTableViewControllerHelper)
 
 - (NSUInteger)occurrencesOfString:(NSString *)string;
@@ -243,6 +249,18 @@ int kRowButtonTag = 3;
 
 		cell.editingAccessoryType = UITableViewCellAccessoryNone;//cell.accessoryType;
 		cell.shouldIndentWhileEditing = rowFlags & kEditable ? YES : NO;
+
+		if ([cell respondsToSelector:@selector(setSeparatorInset:)])
+		{
+			[cell setSeparatorInset:UIEdgeInsetsZero];
+
+			UIView *selectedBackgroundView = [[[UIView alloc] init] autorelease];
+			selectedBackgroundView.backgroundColor = cell.tintColor;
+			selectedBackgroundView.layer.masksToBounds = YES;
+			cell.selectedBackgroundView = selectedBackgroundView;
+			cell.textLabel.highlightedTextColor = [UIColor whiteColor];
+			cell.detailTextLabel.highlightedTextColor = [UIColor whiteColor];
+		}
 	}
 }
 
@@ -338,7 +356,7 @@ int kRowButtonTag = 3;
 		{
 			case UITableViewCellStyleDefault:
 
-			cell.textLabel.font = [UIFont boldSystemFontOfSize:[UIFont labelFontSize]];
+			cell.textLabel.font = [UIFont SYSTEMFONTOFSIZE:[UIFont labelFontSize]];
 			cell.textLabel.textAlignment = TEXTALIGNMENTLEFT;
 			break;
 
@@ -375,7 +393,8 @@ int kRowButtonTag = 3;
 	UIView * rowRightView = [rowDictionary valueForKey:kRowRightViewKey];
 
 	if (rowRightView)
-	{											
+	{
+		CGFloat contentViewHeight = [rowDictionary objectForKey:kRowHeightKey] ? [[rowDictionary valueForKey:kRowHeightKey] floatValue] : cell.contentView.frame.size.height;
 		CGFloat rowRightViewWidth = [rowDictionary objectForKey:kRowRightViewWidthKey] ? [[rowDictionary valueForKey:kRowRightViewWidthKey] floatValue] : rowRightView.frame.size.width;
         CGFloat rowRightViewHeight = [rowDictionary objectForKey:kRowRightViewHeightKey] ? [[rowDictionary valueForKey:kRowRightViewHeightKey] floatValue] : rowRightView.frame.size.height;
 		CGFloat rowRightViewIndentation = [rowDictionary objectForKey:kRowRightViewIndentationKey] ? [[rowDictionary valueForKey:kRowRightViewIndentationKey] floatValue] : cell.indentationWidth;
@@ -384,24 +403,24 @@ int kRowButtonTag = 3;
 		{
 			if (rowRightViewHeight > 0)
 				
-				rowRightView.frame = CGRectMake((cell.contentView.frame.size.height >= rowRightViewHeight ? cell.contentView.frame.size.width - rowRightViewWidth - rowRightViewIndentation : 0.0),
-												(cell.contentView.frame.size.height >= rowRightViewHeight ? (int)((cell.contentView.frame.size.height - rowRightViewHeight) / 2) : 0.0),
+				rowRightView.frame = CGRectMake((contentViewHeight >= rowRightViewHeight ? cell.contentView.frame.size.width - rowRightViewWidth - rowRightViewIndentation : 0.0),
+												(contentViewHeight >= rowRightViewHeight ? (int)((contentViewHeight - rowRightViewHeight) / 2) : 0.0),
 												rowRightViewWidth, rowRightViewHeight);
 			else
 				
 				rowRightView.frame = CGRectMake(cell.contentView.frame.size.width - rowRightViewWidth - rowRightViewIndentation,
-												rowRightViewIndentation, rowRightViewWidth, cell.contentView.frame.size.height - rowRightViewIndentation * 2);
+												rowRightViewIndentation, rowRightViewWidth, contentViewHeight - rowRightViewIndentation * 2);
 		}
 		else
 			
 			if (rowRightViewHeight > 0)
 				
-				rowRightView.frame = CGRectMake(rowRightViewIndentation, (cell.contentView.frame.size.height >= rowRightViewHeight ? (int)((cell.contentView.frame.size.height - rowRightViewHeight) / 2) : 0.0),
+				rowRightView.frame = CGRectMake(rowRightViewIndentation, (contentViewHeight >= rowRightViewHeight ? (int)((contentViewHeight - rowRightViewHeight) / 2) : 0.0),
 												cell.contentView.frame.size.width - rowRightViewIndentation * 2, rowRightViewHeight);
 			else
 				
 				rowRightView.frame = CGRectMake(rowRightViewIndentation, rowRightViewIndentation, cell.contentView.frame.size.width - rowRightViewIndentation * 2,
-												cell.contentView.frame.size.height - rowRightViewIndentation * 2);
+												contentViewHeight - rowRightViewIndentation * 2);
 
 		if ([(id)rowRightView respondsToSelector:@selector(setEnabled:)]) [(id)rowRightView setEnabled:(rowFlags & kDisabled ? NO : YES)];
 
@@ -411,10 +430,10 @@ int kRowButtonTag = 3;
 			
 			UILabel * rowTextLabel = [[UILabel alloc] initWithFrame:CGRectMake(rowRightViewIndentation, 0.0,
 																			   rowRightView.frame.origin.x - rowRightViewIndentation - 5.0,
-																			   cell.contentView.frame.size.height - 2.0)];
+																			   contentViewHeight - 2.0)];
 			rowTextLabel.text = [rowDictionary valueForKey:kRowLabelKey];
 			rowTextLabel.textAlignment = rowFlags & TEXTALIGNMENTRIGHT ? TEXTALIGNMENTRIGHT : TEXTALIGNMENTLEFT;
-			rowTextLabel.font = [UIFont boldSystemFontOfSize:[UIFont labelFontSize]];
+			rowTextLabel.font = [UIFont SYSTEMFONTOFSIZE:[UIFont labelFontSize]];
 			rowTextLabel.textColor = [UIColor blackColor];
 			rowTextLabel.highlightedTextColor = [UIColor whiteColor];
 			rowTextLabel.backgroundColor = [UIColor clearColor];
@@ -434,6 +453,7 @@ int kRowButtonTag = 3;
 		SEL selector = NSSelectorFromString([rowDictionary valueForKey:kRowSelectorNameKey]);
 		if (selector && ![_delegate respondsToSelector:selector]) selector = NULL;
 
+		CGFloat contentViewHeight = [rowDictionary objectForKey:kRowHeightKey] ? [[rowDictionary valueForKey:kRowHeightKey] floatValue] : cell.contentView.frame.size.height;
 		UIImage * backgroundNormal = [[UIImage imageNamed:[rowDictionary valueForKey:kRowButtonBackgroundNormalKey]] stretchableImageWithLeftCapWidth:6.0 topCapHeight:0.0];
 		UIImage * backgroundHighlighted = [[UIImage imageNamed:[rowDictionary valueForKey:kRowButtonBackgroundHighlightedKey]] stretchableImageWithLeftCapWidth:6.0 topCapHeight:0.0];
 		UIButton * rowButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -441,9 +461,9 @@ int kRowButtonTag = 3;
 		rowButton.backgroundColor = [UIColor clearColor];
 		rowButton.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
 		rowButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
-		rowButton.titleLabel.font = [UIFont boldSystemFontOfSize:[UIFont buttonFontSize]];
+		rowButton.titleLabel.font = [UIFont SYSTEMFONTOFSIZE:[UIFont buttonFontSize]];
 		rowButton.titleLabel.shadowOffset = CGSizeMake(0.0, -1.0);
-		rowButton.frame = CGRectMake(0.0, 0.0, cell.contentView.frame.size.width - cell.indentationWidth * 2, cell.contentView.frame.size.height);
+		rowButton.frame = CGRectMake(0.0, 0.0, cell.contentView.frame.size.width - cell.indentationWidth * 2, contentViewHeight);
 		rowButton.tag = kRowButtonTag;
 		rowButton.enabled = rowFlags & kDisabled ? NO : YES;
 
@@ -475,6 +495,14 @@ int kRowButtonTag = 3;
 		if (labelFont) cell.textLabel.font = labelFont;
 		
 		UIColor * labelTextColor = [rowDictionary objectForKey:kRowLabelTextColorKey];
+
+		if (labelTextColor && (NSNull *)labelTextColor == [NSNull null])
+		{
+			labelTextColor = nil;
+
+			if ([_delegate respondsToSelector:@selector(tableView:textColorForRowAtIndexPath:)]) labelTextColor = [_delegate tableView:tableView textColorForRowAtIndexPath:indexPath];
+		}
+
 		if (labelTextColor) cell.textLabel.textColor = labelTextColor;
 
 		if ([rowDictionary objectForKey:kRowLabelLineBreakModeKey])	cell.textLabel.lineBreakMode = [[rowDictionary valueForKey:kRowLabelLineBreakModeKey] integerValue];
@@ -490,9 +518,29 @@ int kRowButtonTag = 3;
 			}
 			
 			CGFloat textLabelWidth = rowCellStyle == UITableViewCellStyleValue2 ? DETAILTEXTLABEL_POSX : cellWidth - cell.indentationWidth * 4;
-			CGFloat textHeight = [cell.textLabel.text sizeWithFont:cell.textLabel.font
-												 constrainedToSize:CGSizeMake(textLabelWidth, 1024)
-													 lineBreakMode:LINEBREAKBYWORDWRAPPING].height;
+			CGFloat textHeight = 0;
+
+			if ([cell.textLabel.text respondsToSelector:@selector(boundingRectWithSize:options:attributes:context:)])
+			{
+				NSMutableParagraphStyle *paragraphStyle = [[[NSMutableParagraphStyle alloc] init] autorelease];
+				paragraphStyle.lineBreakMode = LINEBREAKBYWORDWRAPPING;
+				paragraphStyle.alignment = NSTextAlignmentLeft;
+
+				textHeight = ceilf([cell.textLabel.text boundingRectWithSize:CGSizeMake(textLabelWidth, 1024)
+																	 options:(NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading)
+																  attributes:@{NSFontAttributeName : cell.textLabel.font,
+																			   NSParagraphStyleAttributeName : paragraphStyle}
+																	 context:nil].size.height);
+			}
+			else
+			{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+				textHeight = [cell.textLabel.text sizeWithFont:cell.textLabel.font
+											 constrainedToSize:CGSizeMake(textLabelWidth, 1024)
+												 lineBreakMode:LINEBREAKBYWORDWRAPPING].height;
+#pragma clang diagnostic pop
+			}
 
 			cell.frame = CGRectMake(cell.frame.origin.x, cell.frame.origin.y, cell.frame.size.width, textHeight + cell.indentationWidth * 2);
 			cell.textLabel.numberOfLines = 0;
@@ -516,6 +564,14 @@ int kRowButtonTag = 3;
 			if (detailLabelFont) cell.detailTextLabel.font = detailLabelFont;
 			
 			UIColor * detailLabelTextColor = [rowDictionary objectForKey:kRowDetailLabelTextColorKey];
+
+			if (detailLabelTextColor && (NSNull *)detailLabelTextColor == [NSNull null])
+            {
+                detailLabelTextColor = nil;
+
+                if ([_delegate respondsToSelector:@selector(tableView:detailTextColorForRowAtIndexPath:)]) detailLabelTextColor = [_delegate tableView:tableView detailTextColorForRowAtIndexPath:indexPath];
+            }
+
 			if (detailLabelTextColor) cell.detailTextLabel.textColor = detailLabelTextColor;
 
 			if ([rowDictionary objectForKey:kRowDetailLabelLineBreakModeKey]) cell.detailTextLabel.lineBreakMode = [[rowDictionary valueForKey:kRowDetailLabelLineBreakModeKey] integerValue];
@@ -531,9 +587,29 @@ int kRowButtonTag = 3;
 				}
 				
 				CGFloat detailTextLabelWidth = cellWidth - cell.indentationWidth - ([[UIDevice currentDevice].systemVersion floatValue] >= 5 ? cell.indentationWidth * 2 : 0) - DETAILTEXTLABEL_POSX;
-				CGFloat textHeight = [cell.detailTextLabel.text sizeWithFont:cell.detailTextLabel.font
-														   constrainedToSize:CGSizeMake(detailTextLabelWidth, 1024)
-															   lineBreakMode:LINEBREAKBYWORDWRAPPING].height;				
+				CGFloat textHeight = 0;
+
+				if ([cell.textLabel.text respondsToSelector:@selector(boundingRectWithSize:options:attributes:context:)])
+				{
+					NSMutableParagraphStyle *paragraphStyle = [[[NSMutableParagraphStyle alloc] init] autorelease];
+					paragraphStyle.lineBreakMode = LINEBREAKBYWORDWRAPPING;
+					paragraphStyle.alignment = NSTextAlignmentLeft;
+
+					textHeight = ceilf([cell.detailTextLabel.text boundingRectWithSize:CGSizeMake(detailTextLabelWidth, 1024)
+																		 options:(NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading)
+																	  attributes:@{NSFontAttributeName : cell.detailTextLabel.font,
+																				   NSParagraphStyleAttributeName : paragraphStyle}
+																		 context:nil].size.height);
+				}
+				else
+				{
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+					textHeight = [cell.detailTextLabel.text sizeWithFont:cell.detailTextLabel.font
+													   constrainedToSize:CGSizeMake(detailTextLabelWidth, 1024)
+														   lineBreakMode:LINEBREAKBYWORDWRAPPING].height;
+#pragma clang diagnostic pop
+				}
 
 				cell.frame = CGRectMake(cell.frame.origin.x, cell.frame.origin.y, cell.frame.size.width, textHeight + cell.indentationWidth * 2);
 				cell.detailTextLabel.numberOfLines = 0;
@@ -616,6 +692,10 @@ int kRowButtonTag = 3;
 {
 	NSDictionary * rowDictionary = [self dictionaryForRowAtIndexPath:indexPath];
 	CGFloat rowHeight = [[rowDictionary valueForKey:kRowHeightKey] floatValue];
+
+	if (rowHeight == MAXFLOAT && [_delegate respondsToSelector:@selector(tableView:heightForRowAtIndexPath:)])
+
+		rowHeight = [_delegate tableView:tableView heightForRowAtIndexPath:indexPath];
 
 	if (!rowHeight && _variableRowHeight) rowHeight = [self tableView:tableView cellForRowAtIndexPath:indexPath].frame.size.height;
 
