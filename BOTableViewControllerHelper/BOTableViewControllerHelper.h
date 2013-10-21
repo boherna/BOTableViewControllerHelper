@@ -39,7 +39,8 @@ enum
 	kDisabled = (1 << 9),
 	kImageWithShadow = (1 << 10),
 	kEditable = (1 << 11),
-	kMovable = (1 << 12)
+	kMovable = (1 << 12),
+	kMovableInItsSection = (1 << 13)
 };
 typedef NSUInteger TableViewCellFlags;
 
@@ -121,9 +122,11 @@ extern int kRowButtonTag;
 - (NSString *)tableView:(UITableView *)tableView detailTextForRowAtIndexPath:(NSIndexPath *)indexPath;
 - (UIColor *)tableView:(UITableView *)tableView detailTextColorForRowAtIndexPath:(NSIndexPath *)indexPath;
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath;
-- (void)tableView:(UITableView *)tableView deleteRowAtIndexPath:(NSIndexPath *)indexPath;
+- (void)tableView:(UITableView *)tableView willDeleteRowAtIndexPath:(NSIndexPath *)indexPath;
+- (void)tableView:(UITableView *)tableView didDeleteRowAtIndexPath:(NSIndexPath *)indexPath;
 - (void)tableView:(UITableView *)tableView initCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath;
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath;
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath;
+- (NSIndexPath *)tableView:(UITableView *)tableView targetIndexPathForMoveFromRowAtIndexPath:(NSIndexPath *)sourceIndexPath toProposedIndexPath:(NSIndexPath *)proposedDestinationIndexPath;
 
 @end

@@ -186,7 +186,7 @@ int kRowButtonTag = 3;
 
 - (BOOL)rowMovableAtIndexPath:(NSIndexPath *)indexPath
 {
-	return [[[self dictionaryForRowAtIndexPath:indexPath] valueForKey:kRowFlagsKey] unsignedIntegerValue] & kMovable ? YES : NO;
+	return [[[self dictionaryForRowAtIndexPath:indexPath] valueForKey:kRowFlagsKey] unsignedIntegerValue] & (kMovable | kMovableInItsSection) ? YES : NO;
 }
 
 - (void)deleteRowAtIndexPath:(NSIndexPath *)indexPath
@@ -241,7 +241,7 @@ int kRowButtonTag = 3;
 	{
 		cell.selectionStyle = rowFlags & kSelectable ? UITableViewCellSelectionStyleBlue : UITableViewCellSelectionStyleNone;
 		cell.accessoryType = UITableViewCellAccessoryNone;
-		cell.showsReorderControl = rowFlags & kMovable ? YES : NO;
+		cell.showsReorderControl = rowFlags & (kMovable | kMovableInItsSection) ? YES : NO;
 
 		if (rowFlags & kAccessoryDisclosureIndicator) cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 		if (rowFlags & kAccessoryDetailDisclosureButton) cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
@@ -335,7 +335,7 @@ int kRowButtonTag = 3;
 			![rowDictionary objectForKey:kRowDetailLabelFontKey] && ![rowDictionary objectForKey:kRowDetailLabelTextColorKey] &&
 			![rowDictionary objectForKey:kRowDetailLabelLineBreakModeKey] && ![rowDictionary objectForKey:kRowDetailLabelTextAlignmentKey])
 
-			cellID = [NSString stringWithFormat:@"CellID%u", rowCellStyle];
+			cellID = [NSString stringWithFormat:@"CellID%d", (unsigned int)rowCellStyle];
 	
     if (cellID) cell = [tableView dequeueReusableCellWithIdentifier:cellID];
 
@@ -645,11 +645,13 @@ int kRowButtonTag = 3;
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	if (editingStyle == UITableViewCellEditingStyleDelete)
-	{		
+	{
+		if ([_delegate respondsToSelector:@selector(tableView:willDeleteRowAtIndexPath:)]) [_delegate tableView:tableView willDeleteRowAtIndexPath:indexPath];
+
 		[[self rowsArrayForSection:indexPath.section] removeObjectAtIndex:indexPath.row];
 		[tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
 
-		if ([_delegate respondsToSelector:@selector(tableView:deleteRowAtIndexPath:)]) [_delegate tableView:tableView deleteRowAtIndexPath:indexPath];
+		if ([_delegate respondsToSelector:@selector(tableView:didDeleteRowAtIndexPath:)]) [_delegate tableView:tableView didDeleteRowAtIndexPath:indexPath];
 	}
 	else
 	{
@@ -757,6 +759,22 @@ int kRowButtonTag = 3;
 			}
 		}
 	}
+}
+
+- (NSIndexPath *)tableView:(UITableView *)tableView targetIndexPathForMoveFromRowAtIndexPath:(NSIndexPath *)sourceIndexPath toProposedIndexPath:(NSIndexPath *)proposedDestinationIndexPath
+{
+	if ([_delegate respondsToSelector:@selector(tableView:targetIndexPathForMoveFromRowAtIndexPath:toProposedIndexPath:)])
+
+		return [_delegate tableView:tableView targetIndexPathForMoveFromRowAtIndexPath:sourceIndexPath toProposedIndexPath:proposedDestinationIndexPath];
+
+    if ([[[self dictionaryForRowAtIndexPath:sourceIndexPath] valueForKey:kRowFlagsKey] unsignedIntegerValue] & kMovableInItsSection &&
+		sourceIndexPath.section != proposedDestinationIndexPath.section)
+	{
+        NSUInteger rowInSourceSection =	(sourceIndexPath.section > proposedDestinationIndexPath.section) ? 0 : [tableView numberOfRowsInSection:sourceIndexPath.section] - 1;
+        return [NSIndexPath indexPathForRow:rowInSourceSection inSection:sourceIndexPath.section];
+    }
+
+    return proposedDestinationIndexPath;
 }
 
 #pragma mark - Memory management
