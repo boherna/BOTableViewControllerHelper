@@ -44,6 +44,8 @@ enum
 };
 typedef NSUInteger TableViewCellFlags;
 
+typedef void (^RowBlock)(NSIndexPath *, id);
+
 // Section keys
 extern NSString * const kEditingSectionHeaderTitleKey;
 extern NSString * const kEditingSectionFooterTitleKey;
@@ -81,6 +83,7 @@ extern NSString * const kRowButtonBackgroundNormalKey;
 extern NSString * const kRowButtonBackgroundHighlightedKey;
 extern NSString * const kRowViewControllerNibNameKey;
 extern NSString * const kRowSelectorNameKey;
+extern NSString * const kRowBlockKey;
 extern NSString * const kRowUserInfoKey;
 
 // For removing embedded views at cell recycling time
@@ -94,7 +97,9 @@ extern int kRowButtonTag;
 
 @property (nonatomic, retain) NSMutableArray * dataSource;
 @property (nonatomic, assign) id<BOTableViewControllerHelperDelegate> delegate;
-@property (nonatomic, assign) BOOL variableRowHeight; // YES when using multi-line text in rows
+@property (nonatomic, assign) BOOL variableRowHeight;	// YES when using multi-line text in rows
+@property (nonatomic, assign) BOOL autoCheckItems;		// YES for auto removing checkmark from previously marked row
+@property (nonatomic, assign) BOOL autoDisableItems;	// YES for auto disabling a row when selected
 
 + (id)dataSourceWithArray:(NSMutableArray *)array;
 - (NSInteger)numberOfSections;

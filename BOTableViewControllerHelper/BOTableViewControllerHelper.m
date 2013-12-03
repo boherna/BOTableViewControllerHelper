@@ -64,6 +64,7 @@ NSString * const kRowButtonBackgroundNormalKey = @"RowButtonBackgroundNormal";
 NSString * const kRowButtonBackgroundHighlightedKey = @"RowButtonBackgroundHighlighted";
 NSString * const kRowViewControllerNibNameKey = @"RowViewControllerNibName";
 NSString * const kRowSelectorNameKey = @"RowSelectorName";
+NSString * const kRowBlockKey = @"RowBlock";
 NSString * const kRowUserInfoKey = @"RowUserInfo";
 
 // For removing embedded views at cell recycling time
@@ -130,6 +131,8 @@ int kRowButtonTag = 3;
 	BOTableViewControllerHelper * dataSource = [[[BOTableViewControllerHelper alloc] init] autorelease];
 	dataSource.dataSource = array;
 	dataSource.variableRowHeight = NO;
+	dataSource.autoCheckItems = NO;
+	dataSource.autoDisableItems = NO;
 	return dataSource;
 }
 
@@ -721,7 +724,45 @@ int kRowButtonTag = 3;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	if ([_delegate respondsToSelector:@selector(tableView:didSelectRowAtIndexPath:)]) [_delegate tableView:tableView didSelectRowAtIndexPath:indexPath];
+	if ([_delegate respondsToSelector:@selector(tableView:didSelectRowAtIndexPath:)])
+	{
+		[_delegate tableView:tableView didSelectRowAtIndexPath:indexPath];
+	}
+
+	if (_autoCheckItems)
+	{
+		NSInteger numberOfRowsInSection = [self numberOfRowsInSection:indexPath.section];
+
+		for (NSInteger row = 0; row < numberOfRowsInSection; row++)
+		{
+			NSIndexPath * indexPathForRow = [NSIndexPath indexPathForRow:row inSection:indexPath.section];
+			NSMutableDictionary * rowDictionary = [self dictionaryForRowAtIndexPath:indexPathForRow];
+			TableViewCellFlags rowFlags = [[rowDictionary valueForKey:kRowFlagsKey] unsignedIntegerValue];
+
+			if (rowFlags & kAccessoryCheckmark)
+			{
+				rowFlags &= ~kAccessoryCheckmark;
+				[rowDictionary setObject:[NSNumber numberWithUnsignedInteger:rowFlags] forKey:kRowFlagsKey];
+				[[tableView cellForRowAtIndexPath:indexPathForRow] setAccessoryType:UITableViewCellAccessoryNone];
+				break;
+			}
+		}
+
+		NSMutableDictionary * rowDictionary = [self dictionaryForRowAtIndexPath:indexPath];
+		TableViewCellFlags rowFlags = [[rowDictionary valueForKey:kRowFlagsKey] unsignedIntegerValue];
+		[rowDictionary setObject:[NSNumber numberWithUnsignedInteger:(rowFlags | kAccessoryCheckmark)] forKey:kRowFlagsKey];
+		[[tableView cellForRowAtIndexPath:indexPath] setAccessoryType:UITableViewCellAccessoryCheckmark];
+	}
+
+	if (_autoDisableItems)
+	{
+		NSMutableDictionary * rowDictionary = [self dictionaryForRowAtIndexPath:indexPath];
+		TableViewCellFlags rowFlags = [[rowDictionary valueForKey:kRowFlagsKey] unsignedIntegerValue];
+		rowFlags |= kDisabled;
+		rowFlags &= ~kSelectable;
+		[rowDictionary setObject:[NSNumber numberWithUnsignedInteger:rowFlags] forKey:kRowFlagsKey];
+		[tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+	}
 
     NSString * viewControllerNibName = [[self dictionaryForRowAtIndexPath:indexPath] valueForKey:kRowViewControllerNibNameKey];
 
@@ -742,7 +783,15 @@ int kRowButtonTag = 3;
 	{
 		[tableView deselectRowAtIndexPath:indexPath animated:YES];
 
-		NSString * string = [[self dictionaryForRowAtIndexPath:indexPath] valueForKey:kRowSelectorNameKey];
+		NSDictionary * rowDictionary = [self dictionaryForRowAtIndexPath:indexPath];
+		RowBlock rowBlock = [rowDictionary valueForKey:kRowBlockKey];
+		NSString * string = [rowDictionary valueForKey:kRowSelectorNameKey];
+
+		if (rowBlock)
+		{
+			rowBlock(indexPath, [self objectForRowAtIndexPath:indexPath]);
+		}
+
 		SEL selector = NSSelectorFromString(string);
 
 		if (selector && [_delegate respondsToSelector:selector])
@@ -752,10 +801,9 @@ int kRowButtonTag = 3;
 			{
 				if ([string occurrencesOfString:@":"] == 1) [_delegate performSelector:selector withObject:indexPath];
 				else
-
-					[_delegate performSelector:selector
-									withObject:indexPath
-									withObject:[[self dictionaryForRowAtIndexPath:indexPath] valueForKey:kRowUserInfoKey]];
+				{
+					[_delegate performSelector:selector	withObject:indexPath withObject:[self objectForRowAtIndexPath:indexPath]];
+				}
 			}
 		}
 	}
