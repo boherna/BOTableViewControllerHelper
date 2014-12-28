@@ -46,6 +46,8 @@ NSString * const kRowHeightKey = @"RowHeight";
 NSString * const kRowFlagsKey = @"RowFlags";
 NSString * const kRowImageKey = @"RowImage";
 NSString * const kRowBackgroundColorKey = @"RowBackgroundColor";
+NSString * const kRowSelectedBackgroundColorKey = @"RowSelectedBackgroundColor";
+NSString * const kRowSelectedTextColorKey = @"RowSelectedTextColor";
 NSString * const kRowLabelKey = @"RowLabel";
 NSString * const kRowLabelFontKey = @"RowLabelFont";
 NSString * const kRowLabelTextColorKey = @"RowLabelTextColor";
@@ -253,17 +255,17 @@ int kRowButtonTag = 3;
 		cell.editingAccessoryType = UITableViewCellAccessoryNone;//cell.accessoryType;
 		cell.shouldIndentWhileEditing = rowFlags & kEditable ? YES : NO;
 
-		if ([cell respondsToSelector:@selector(setSeparatorInset:)])
+		if (rowFlags & kNoSeparatorInset && [cell respondsToSelector:@selector(setSeparatorInset:)])
 		{
 			[cell setSeparatorInset:UIEdgeInsetsZero];
-
-			UIView *selectedBackgroundView = [[[UIView alloc] init] autorelease];
-			selectedBackgroundView.backgroundColor = cell.tintColor;
-			selectedBackgroundView.layer.masksToBounds = YES;
-			cell.selectedBackgroundView = selectedBackgroundView;
-			cell.textLabel.highlightedTextColor = [UIColor whiteColor];
-			cell.detailTextLabel.highlightedTextColor = [UIColor whiteColor];
 		}
+
+		UIView *selectedBackgroundView = [[[UIView alloc] init] autorelease];
+		selectedBackgroundView.backgroundColor = cell.tintColor;
+		selectedBackgroundView.layer.masksToBounds = YES;
+		cell.selectedBackgroundView = selectedBackgroundView;
+		cell.textLabel.highlightedTextColor = [UIColor whiteColor];
+		cell.detailTextLabel.highlightedTextColor = [UIColor whiteColor];
 	}
 }
 
@@ -336,7 +338,8 @@ int kRowButtonTag = 3;
 			![rowDictionary objectForKey:kRowLabelFontKey] && ![rowDictionary objectForKey:kRowLabelTextColorKey] &&
 			![rowDictionary objectForKey:kRowLabelLineBreakModeKey] && ![rowDictionary objectForKey:kRowLabelTextAlignmentKey] &&
 			![rowDictionary objectForKey:kRowDetailLabelFontKey] && ![rowDictionary objectForKey:kRowDetailLabelTextColorKey] &&
-			![rowDictionary objectForKey:kRowDetailLabelLineBreakModeKey] && ![rowDictionary objectForKey:kRowDetailLabelTextAlignmentKey])
+			![rowDictionary objectForKey:kRowDetailLabelLineBreakModeKey] && ![rowDictionary objectForKey:kRowDetailLabelTextAlignmentKey] &&
+			![rowDictionary objectForKey:kRowSelectedBackgroundColorKey] && ![rowDictionary objectForKey:kRowSelectedTextColorKey])
 
 			cellID = [NSString stringWithFormat:@"CellID%d", (unsigned int)rowCellStyle];
 	
@@ -709,12 +712,29 @@ int kRowButtonTag = 3;
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	UIColor * backgroundColor = [[self dictionaryForRowAtIndexPath:indexPath] objectForKey:kRowBackgroundColorKey];
+	UIColor *backgroundColor = [[self dictionaryForRowAtIndexPath:indexPath] objectForKey:kRowBackgroundColorKey];
 	if (backgroundColor) cell.backgroundColor = backgroundColor;
-	
-	if ([_delegate respondsToSelector:@selector(tableView:willDisplayCell:forRowAtIndexPath:)])
 
+	UIColor *selectedBackgroundColor = [[self dictionaryForRowAtIndexPath:indexPath] objectForKey:kRowSelectedBackgroundColorKey];
+	if (selectedBackgroundColor)
+	{
+		UIView *selectedBackgroundView = [[[UIView alloc] init] autorelease];
+		selectedBackgroundView.backgroundColor = selectedBackgroundColor;
+		selectedBackgroundView.layer.masksToBounds = YES;
+		cell.selectedBackgroundView = selectedBackgroundView;
+	}
+
+	UIColor *selectedTextColor = [[self dictionaryForRowAtIndexPath:indexPath] objectForKey:kRowSelectedTextColorKey];
+	if (selectedTextColor)
+	{
+		cell.textLabel.highlightedTextColor = selectedTextColor;
+		cell.detailTextLabel.highlightedTextColor = selectedTextColor;
+	}
+
+	if ([_delegate respondsToSelector:@selector(tableView:willDisplayCell:forRowAtIndexPath:)])
+	{
 		[_delegate tableView:tableView willDisplayCell:cell forRowAtIndexPath:indexPath];
+	}
 }
 
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath

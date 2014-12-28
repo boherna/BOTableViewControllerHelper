@@ -40,7 +40,8 @@ enum
 	kImageWithShadow = (1 << 10),
 	kEditable = (1 << 11),
 	kMovable = (1 << 12),
-	kMovableInItsSection = (1 << 13)
+	kMovableInItsSection = (1 << 13),
+	kNoSeparatorInset = (1 << 14)
 };
 typedef NSUInteger TableViewCellFlags;
 
@@ -65,6 +66,8 @@ extern NSString * const kRowHeightKey;
 extern NSString * const kRowFlagsKey;
 extern NSString * const kRowImageKey;
 extern NSString * const kRowBackgroundColorKey;
+extern NSString * const kRowSelectedBackgroundColorKey;
+extern NSString * const kRowSelectedTextColorKey;
 extern NSString * const kRowLabelKey;
 extern NSString * const kRowLabelFontKey;
 extern NSString * const kRowLabelTextColorKey;
