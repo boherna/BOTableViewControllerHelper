@@ -68,6 +68,7 @@ NSString * const kRowViewControllerNibNameKey = @"RowViewControllerNibName";
 NSString * const kRowSelectorNameKey = @"RowSelectorName";
 NSString * const kRowBlockKey = @"RowBlock";
 NSString * const kRowUserInfoKey = @"RowUserInfo";
+NSString * const kRowInitCellBlockKey = @"RowInitCellBlock";
 
 // For removing embedded views at cell recycling time
 int kRowRightViewTag = 1;
@@ -275,7 +276,24 @@ int kRowButtonTag = 3;
 	NSMutableDictionary * rowDictionary = [self dictionaryForRowAtIndexPath:indexPath];
 	TableViewCellFlags rowFlags = [[rowDictionary valueForKey:kRowFlagsKey] unsignedIntegerValue];
 	NSString * cellID = [rowDictionary objectForKey:kRowCellReuseIdentifierKey];
-	UITableViewCell * cell = nil;
+	UITableViewCell * cell = cellID ? [tableView dequeueReusableCellWithIdentifier:cellID] : nil;
+
+	if (cell)
+	{
+		[self initCell:cell withRowFlags:rowFlags];
+
+		RowInitCellBlock initCellBlock = [rowDictionary valueForKey:kRowInitCellBlockKey];
+		if (initCellBlock)
+		{
+			initCellBlock(cell, indexPath, [self objectForRowAtIndexPath:indexPath]);
+		}
+
+		if ([_delegate respondsToSelector:@selector(tableView:initCell:forRowAtIndexPath:)])
+		{
+			[_delegate tableView:tableView initCell:cell forRowAtIndexPath:indexPath];
+		}
+		return cell;
+	}
 
 	if ([rowDictionary objectForKey:kRowCellNibNameKey])
 	{
@@ -712,10 +730,13 @@ int kRowButtonTag = 3;
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	UIColor *backgroundColor = [[self dictionaryForRowAtIndexPath:indexPath] objectForKey:kRowBackgroundColorKey];
+	NSMutableDictionary * rowDictionary = [self dictionaryForRowAtIndexPath:indexPath];
+	TableViewCellFlags rowFlags = [[rowDictionary valueForKey:kRowFlagsKey] unsignedIntegerValue];
+
+	UIColor *backgroundColor = [rowDictionary objectForKey:kRowBackgroundColorKey];
 	if (backgroundColor) cell.backgroundColor = backgroundColor;
 
-	UIColor *selectedBackgroundColor = [[self dictionaryForRowAtIndexPath:indexPath] objectForKey:kRowSelectedBackgroundColorKey];
+	UIColor *selectedBackgroundColor = [rowDictionary objectForKey:kRowSelectedBackgroundColorKey];
 	if (selectedBackgroundColor)
 	{
 		UIView *selectedBackgroundView = [[[UIView alloc] init] autorelease];
@@ -724,11 +745,27 @@ int kRowButtonTag = 3;
 		cell.selectedBackgroundView = selectedBackgroundView;
 	}
 
-	UIColor *selectedTextColor = [[self dictionaryForRowAtIndexPath:indexPath] objectForKey:kRowSelectedTextColorKey];
+	UIColor *selectedTextColor = [rowDictionary objectForKey:kRowSelectedTextColorKey];
 	if (selectedTextColor)
 	{
 		cell.textLabel.highlightedTextColor = selectedTextColor;
 		cell.detailTextLabel.highlightedTextColor = selectedTextColor;
+	}
+
+	if (rowFlags & kNoSeparatorInset)
+	{
+		if ([cell respondsToSelector:@selector(setSeparatorInset:)])
+		{
+			[cell setSeparatorInset:UIEdgeInsetsZero];
+		}
+		if ([cell respondsToSelector:@selector(setLayoutMargins:)])
+		{
+			[cell setLayoutMargins:UIEdgeInsetsZero];
+		}
+		if ([cell respondsToSelector:@selector(setPreservesSuperviewLayoutMargins:)])
+		{
+			[cell setPreservesSuperviewLayoutMargins:NO];
+		}
 	}
 
 	if ([_delegate respondsToSelector:@selector(tableView:willDisplayCell:forRowAtIndexPath:)])

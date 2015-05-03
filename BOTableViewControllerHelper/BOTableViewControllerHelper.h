@@ -45,6 +45,7 @@ enum
 };
 typedef NSUInteger TableViewCellFlags;
 
+typedef void (^RowInitCellBlock)(UITableViewCell *, NSIndexPath *, id);
 typedef void (^RowBlock)(NSIndexPath *, id);
 
 // Section keys
@@ -88,6 +89,7 @@ extern NSString * const kRowViewControllerNibNameKey;
 extern NSString * const kRowSelectorNameKey;
 extern NSString * const kRowBlockKey;
 extern NSString * const kRowUserInfoKey;
+extern NSString * const kRowInitCellBlockKey;
 
 // For removing embedded views at cell recycling time
 extern int kRowRightViewTag;
