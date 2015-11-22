@@ -24,7 +24,7 @@
 //  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 enum
 {
@@ -100,8 +100,8 @@ extern int kRowButtonTag;
 
 @interface BOTableViewControllerHelper : NSObject <UITableViewDataSource, UITableViewDelegate>
 
-@property (nonatomic, retain) NSMutableArray * dataSource;
-@property (nonatomic, assign) id<BOTableViewControllerHelperDelegate> delegate;
+@property (nonatomic, strong) NSMutableArray * dataSource;
+@property (nonatomic, weak) id<BOTableViewControllerHelperDelegate> delegate;
 @property (nonatomic, assign) BOOL variableRowHeight;	// YES when using multi-line text in rows
 @property (nonatomic, assign) BOOL autoCheckItems;		// YES for auto removing checkmark from previously marked row
 @property (nonatomic, assign) BOOL autoDisableItems;	// YES for auto disabling a row when selected
