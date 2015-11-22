@@ -24,7 +24,7 @@
 //  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 enum
 {
@@ -49,47 +49,47 @@ typedef void (^RowInitCellBlock)(UITableViewCell *, NSIndexPath *, id);
 typedef void (^RowBlock)(NSIndexPath *, id);
 
 // Section keys
-extern NSString * const kEditingSectionHeaderTitleKey;
-extern NSString * const kEditingSectionFooterTitleKey;
-extern NSString * const kSectionHeaderTitleKey;
-extern NSString * const kSectionHeaderHeightKey;
-extern NSString * const kSectionFooterTitleKey;
-extern NSString * const kSectionFooterHeightKey;
-extern NSString * const kSectionFooterViewKey;
+extern NSString *const kEditingSectionHeaderTitleKey;
+extern NSString *const kEditingSectionFooterTitleKey;
+extern NSString *const kSectionHeaderTitleKey;
+extern NSString *const kSectionHeaderHeightKey;
+extern NSString *const kSectionFooterTitleKey;
+extern NSString *const kSectionFooterHeightKey;
+extern NSString *const kSectionFooterViewKey;
 
 // Row keys
-extern NSString * const kRowsArrayKey;
-extern NSString * const kRowCellStyleKey;
-extern NSString * const kRowCellNibNameKey;
-extern NSString * const kRowCellClassNameKey;
-extern NSString * const kRowCellReuseIdentifierKey;
-extern NSString * const kRowHeightKey;
-extern NSString * const kRowFlagsKey;
-extern NSString * const kRowImageKey;
-extern NSString * const kRowBackgroundColorKey;
-extern NSString * const kRowSelectedBackgroundColorKey;
-extern NSString * const kRowSelectedTextColorKey;
-extern NSString * const kRowLabelKey;
-extern NSString * const kRowLabelFontKey;
-extern NSString * const kRowLabelTextColorKey;
-extern NSString * const kRowLabelLineBreakModeKey;
-extern NSString * const kRowLabelTextAlignmentKey;
-extern NSString * const kRowDetailLabelKey;
-extern NSString * const kRowDetailLabelFontKey;
-extern NSString * const kRowDetailLabelTextColorKey;
-extern NSString * const kRowDetailLabelLineBreakModeKey;
-extern NSString * const kRowDetailLabelTextAlignmentKey;
-extern NSString * const kRowRightViewKey;
-extern NSString * const kRowRightViewWidthKey;
-extern NSString * const kRowRightViewHeightKey;
-extern NSString * const kRowRightViewIndentationKey;
-extern NSString * const kRowButtonBackgroundNormalKey;
-extern NSString * const kRowButtonBackgroundHighlightedKey;
-extern NSString * const kRowViewControllerNibNameKey;
-extern NSString * const kRowSelectorNameKey;
-extern NSString * const kRowBlockKey;
-extern NSString * const kRowUserInfoKey;
-extern NSString * const kRowInitCellBlockKey;
+extern NSString *const kRowsArrayKey;
+extern NSString *const kRowCellStyleKey;
+extern NSString *const kRowCellNibNameKey;
+extern NSString *const kRowCellClassNameKey;
+extern NSString *const kRowCellReuseIdentifierKey;
+extern NSString *const kRowHeightKey;
+extern NSString *const kRowFlagsKey;
+extern NSString *const kRowImageKey;
+extern NSString *const kRowBackgroundColorKey;
+extern NSString *const kRowSelectedBackgroundColorKey;
+extern NSString *const kRowSelectedTextColorKey;
+extern NSString *const kRowLabelKey;
+extern NSString *const kRowLabelFontKey;
+extern NSString *const kRowLabelTextColorKey;
+extern NSString *const kRowLabelLineBreakModeKey;
+extern NSString *const kRowLabelTextAlignmentKey;
+extern NSString *const kRowDetailLabelKey;
+extern NSString *const kRowDetailLabelFontKey;
+extern NSString *const kRowDetailLabelTextColorKey;
+extern NSString *const kRowDetailLabelLineBreakModeKey;
+extern NSString *const kRowDetailLabelTextAlignmentKey;
+extern NSString *const kRowRightViewKey;
+extern NSString *const kRowRightViewWidthKey;
+extern NSString *const kRowRightViewHeightKey;
+extern NSString *const kRowRightViewIndentationKey;
+extern NSString *const kRowButtonBackgroundNormalKey;
+extern NSString *const kRowButtonBackgroundHighlightedKey;
+extern NSString *const kRowViewControllerNibNameKey;
+extern NSString *const kRowSelectorNameKey;
+extern NSString *const kRowBlockKey;
+extern NSString *const kRowUserInfoKey;
+extern NSString *const kRowInitCellBlockKey;
 
 // For removing embedded views at cell recycling time
 extern int kRowRightViewTag;
@@ -100,8 +100,8 @@ extern int kRowButtonTag;
 
 @interface BOTableViewControllerHelper : NSObject <UITableViewDataSource, UITableViewDelegate>
 
-@property (nonatomic, retain) NSMutableArray * dataSource;
-@property (nonatomic, assign) id<BOTableViewControllerHelperDelegate> delegate;
+@property (nonatomic, strong) NSMutableArray *dataSource;
+@property (nonatomic, weak) id<BOTableViewControllerHelperDelegate> delegate;
 @property (nonatomic, assign) BOOL variableRowHeight;	// YES when using multi-line text in rows
 @property (nonatomic, assign) BOOL autoCheckItems;		// YES for auto removing checkmark from previously marked row
 @property (nonatomic, assign) BOOL autoDisableItems;	// YES for auto disabling a row when selected
